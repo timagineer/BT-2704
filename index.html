@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-        
+
         @layer config {
             :root {
                 --primary-50: hsl(216, 53%, 10%);
@@ -1204,6 +1204,7 @@
                 padding-inline: var(--space-6);
                 background: var(--surface);
                 overflow-y: auto;
+                overflow-x: hidden;
             }
 
             dialog>div p {
@@ -2390,7 +2391,7 @@
                                 <th class="numeric">Amount</th>
                                 <th class="numeric">Unapplied</th>
                                 <th class="td-end">
-                                    <button class="btn-primary btn-sm">New Payment</button>
+                                    <button class="btn-primary btn-sm" ng-click="vm.showNewPayment()">New Payment</button>
                                 </th>
                             </tr>
                         </thead>
@@ -2406,9 +2407,9 @@
                                     <span ng-if="pmt.unapplied > 0">${{pmt.unapplied.toFixed(2)}}</span>
                                 </td>
                                 <td class="td-end">
-                                    <button class="btn-xs-spaced">Details</button>
-                                    <button class="btn-danger btn-xs-spaced" ng-class="{hidden: pmt.unapplied === 0}">Refund</button>
-                                    <button class="btn-primary btn-xs" ng-class="{hidden: pmt.unapplied === 0}">Distribute</button>
+                                    <button class="btn-xs-spaced" ng-click="vm.showUnappliedDetails(pmt)">Details</button>
+                                    <button class="btn-danger btn-xs-spaced" ng-class="{hidden: pmt.unapplied === 0}" ng-click="vm.showUnappliedRefund(pmt)">Refund</button>
+                                    <button class="btn-primary btn-xs" ng-class="{hidden: pmt.unapplied === 0}" ng-click="vm.showDistribute(pmt)">Distribute</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -2749,6 +2750,74 @@
                     <button class="btn-primary" ng-click="vm.addModalNote(vm.addTxnServiceLine, vm.txnNote, 'txn')">Add Note</button>
                 </div>
             </div>
+        </div>
+    </dialog>
+
+    <!-- Unapplied Payment Details Modal -->
+    <dialog id="unapplied-details-dialog">
+        <header>
+            <h2>Payment Details</h2>
+            <button type="button" ng-click="vm.closeUnappliedDetails()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </header>
+        <div>
+            <p class="placeholder-text">Unapplied payment details content</p>
+            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+        </div>
+    </dialog>
+
+    <!-- Distribute Payment Modal -->
+    <dialog id="distribute-dialog">
+        <header>
+            <h2>Distribute Unapplied Payment</h2>
+            <button type="button" ng-click="vm.closeDistribute()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </header>
+        <div>
+            <p class="placeholder-text">Distribute payment content</p>
+            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+        </div>
+    </dialog>
+
+    <!-- New Payment Modal -->
+    <dialog id="new-payment-dialog">
+        <header>
+            <h2>New Payment</h2>
+            <button type="button" ng-click="vm.closeNewPayment()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </header>
+        <div>
+            <p class="placeholder-text">New payment content</p>
+            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+        </div>
+    </dialog>
+
+    <!-- Unapplied Refund Modal -->
+    <dialog id="unapplied-refund-dialog">
+        <header>
+            <h2>Refund Payment</h2>
+            <button type="button" ng-click="vm.closeUnappliedRefund()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </header>
+        <div>
+            <p class="placeholder-text">Refund payment content</p>
+            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
         </div>
     </dialog>
 
@@ -3561,6 +3630,117 @@
                         vm.addModalNote(sl, null, type);
                     }
                 };
+
+                // Unapplied Payment Details Modal
+                vm.showUnappliedDetails = function (pmt) {
+                    vm.selectedUnappliedPayment = pmt;
+                    var d = document.getElementById('unapplied-details-dialog');
+                    d.classList.remove('animate-in');
+                    d.showModal();
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            d.classList.add('animate-in');
+                        });
+                    });
+                };
+
+                vm.closeUnappliedDetails = function () {
+                    var d = document.getElementById('unapplied-details-dialog');
+                    d.classList.remove('animate-in');
+                    d.classList.add('closing');
+                    setTimeout(function () {
+                        d.close();
+                        d.classList.remove('closing');
+                    }, 200);
+                };
+
+                document.getElementById('unapplied-details-dialog').addEventListener('cancel', function (e) {
+                    e.preventDefault();
+                    vm.closeUnappliedDetails();
+                });
+
+                // Distribute Payment Modal
+                vm.showDistribute = function (pmt) {
+                    vm.distributePayment = pmt;
+                    var d = document.getElementById('distribute-dialog');
+                    d.classList.remove('animate-in');
+                    d.showModal();
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            d.classList.add('animate-in');
+                        });
+                    });
+                };
+
+                vm.closeDistribute = function () {
+                    var d = document.getElementById('distribute-dialog');
+                    d.classList.remove('animate-in');
+                    d.classList.add('closing');
+                    setTimeout(function () {
+                        d.close();
+                        d.classList.remove('closing');
+                    }, 200);
+                };
+
+                document.getElementById('distribute-dialog').addEventListener('cancel', function (e) {
+                    e.preventDefault();
+                    vm.closeDistribute();
+                });
+
+                // New Payment Modal
+                vm.showNewPayment = function () {
+                    var d = document.getElementById('new-payment-dialog');
+                    d.classList.remove('animate-in');
+                    d.showModal();
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            d.classList.add('animate-in');
+                        });
+                    });
+                };
+
+                vm.closeNewPayment = function () {
+                    var d = document.getElementById('new-payment-dialog');
+                    d.classList.remove('animate-in');
+                    d.classList.add('closing');
+                    setTimeout(function () {
+                        d.close();
+                        d.classList.remove('closing');
+                    }, 200);
+                };
+
+                document.getElementById('new-payment-dialog').addEventListener('cancel', function (e) {
+                    e.preventDefault();
+                    vm.closeNewPayment();
+                });
+
+                // Unapplied Refund Modal
+                vm.showUnappliedRefund = function (pmt) {
+                    vm.unappliedRefundPayment = pmt;
+                    var d = document.getElementById('unapplied-refund-dialog');
+                    d.classList.remove('animate-in');
+                    d.showModal();
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            d.classList.add('animate-in');
+                        });
+                    });
+                };
+
+                vm.closeUnappliedRefund = function () {
+                    var d = document.getElementById('unapplied-refund-dialog');
+                    d.classList.remove('animate-in');
+                    d.classList.add('closing');
+                    setTimeout(function () {
+                        d.close();
+                        d.classList.remove('closing');
+                    }, 200);
+                };
+
+                document.getElementById('unapplied-refund-dialog').addEventListener('cancel', function (e) {
+                    e.preventDefault();
+                    vm.closeUnappliedRefund();
+                });
             });
     </script>
 </body>
