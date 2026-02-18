@@ -583,6 +583,14 @@
                 background: var(--gray-650);
             }
 
+            .service-line-row.expanded {
+                background: var(--gray-650);
+            }
+
+            .service-line-row.expanded td {
+                border-block-end-color: var(--gray-650);
+            }
+
             .service-line-row td:first-child {
                 border-inline-start: 2px solid var(--secondary-300);
             }
@@ -669,18 +677,71 @@
                 padding: 0.375rem var(--space-3);
             }
 
+            .payment-table th:last-child,
+            .payment-table td:last-child {
+                width: 170px;
+                white-space: nowrap;
+            }
+
+            .payment-table .btn-xs:not(.btn-dropdown > button),
+            .payment-table .btn-xs-spaced:not(.btn-dropdown > button),
+            .payment-table .btn-danger:not(.btn-dropdown > button) {
+                min-width: 66px;
+            }
+
             /* Activity log */
             .activity-log {
                 margin-block-start: var(--space-4);
-                padding: var(--space-4);
+                margin-block-end: var(--space-3);
                 background: var(--gray-750);
                 border: 1px solid var(--border-subtle);
                 border-radius: var(--radius);
             }
 
-            .activity-log strong {
-                display: block;
-                margin-block-end: var(--space-3);
+            .activity-log-summary {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--space-3) var(--space-4);
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 0.875rem;
+                transition: background-color var(--transition-fast);
+            }
+
+            .activity-log-summary:hover {
+                background: var(--hover-bg);
+            }
+
+            .activity-log-summary-label {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+            }
+
+            .activity-log-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                inline-size: 1rem;
+                block-size: 1rem;
+                transition: transform var(--transition-normal);
+                color: var(--border);
+            }
+
+            .activity-log[open] .activity-log-icon {
+                transform: rotate(90deg);
+                color: var(--primary-300);
+            }
+
+            .activity-log-icon svg {
+                inline-size: 0.75rem;
+                block-size: 0.75rem;
+                fill: currentColor;
+            }
+
+            .activity-log-content {
+                padding: 0 var(--space-4) var(--space-4) var(--space-4);
             }
 
             .activity-input {
@@ -1390,22 +1451,11 @@
                 padding: 0.375rem 0.625rem;
             }
 
-            .payment-empty-state {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: var(--space-3);
-                padding-block: var(--space-1);
-                padding-inline: var(--space-2);
+            .payment-empty-state td {
+                text-align: center;
                 color: var(--text-secondary);
-                font-size: 0.875rem;
                 font-style: italic;
-            }
-
-            .payment-empty-state button {
-                font-size: 0.75rem;
-                padding: 0.375rem 0.625rem;
-                font-style: normal;
+                padding-block: var(--space-4);
             }
 
             .modal-input.hidden {
@@ -1634,7 +1684,7 @@
             /* Dropdown checkbox */
             .dropdown-checkbox {
                 margin-inline-end: 0.5rem;
-                accent-color: var(--secondary-300);
+                accent-color: var(--secondary-250);
             }
 
             /* Tooltip positioning */
@@ -1671,6 +1721,56 @@
             .btn-sm {
                 font-size: 0.75rem;
                 padding: 0.375rem 0.625rem;
+            }
+
+            /* Dropdown button */
+            .btn-dropdown {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            .btn-dropdown>button {
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+            }
+
+            .btn-dropdown>button svg {
+                inline-size: 1rem;
+                block-size: 1rem;
+                vertical-align: text-bottom;
+            }
+
+            .btn-dropdown-menu {
+                position: absolute;
+                z-index: 100;
+                inset-block-start: calc(100% + 0.25rem);
+                inset-inline-end: 0;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: var(--space-1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                min-inline-size: 12rem;
+            }
+
+            .btn-dropdown-menu button {
+                display: block;
+                inline-size: 100%;
+                text-align: start;
+                padding: var(--space-2) var(--space-3);
+                font-size: 0.75rem;
+                font-weight: 400;
+                border: none;
+                background: transparent;
+                color: var(--text);
+            }
+
+            .btn-dropdown-menu button:hover {
+                background: var(--hover-bg);
+                border-color: transparent;
             }
 
             /* Waterfall container */
@@ -2006,7 +2106,7 @@
                                 <td class="numeric">${{enc.totalBal.toFixed(2)}}</td>
                             </tr>
 
-                            <tr ng-repeat-start="sl in enc.serviceLines" ng-show="enc.expanded && vm.showEncounter(enc)" class="service-line-row" ng-click="vm.toggleServiceLine(sl)">
+                            <tr ng-repeat-start="sl in enc.serviceLines" ng-show="enc.expanded && vm.showEncounter(enc)" class="service-line-row" ng-class="{expanded: sl.expanded}" ng-click="vm.toggleServiceLine(sl)">
                                 <td></td>
                                 <td>
                                     <span class="expand-icon" ng-class="{expanded: sl.expanded}">
@@ -2025,24 +2125,7 @@
                             </tr>
                             <tr ng-repeat-end ng-show="sl.expanded && vm.showEncounter(enc)">
                                 <td colspan="11" class="payment-wrapper">
-                                    <div class="waterfall-container" ng-if="sl.payments.length > 0">
-                                        <div class="waterfall-badges">
-                                            <span ng-repeat="level in vm.getPaymentWaterfall(sl)" class="waterfall-badge-item">
-                                                <span class="badge badge-insurance" ng-class="{
-                                                    'badge-signed': level === 'Primary',
-                                                    'badge-finished': level === 'Secondary',
-                                                    'badge-info': level === 'Client'
-                                                }">{{level}}</span>
-                                                <svg ng-if="!$last" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
-                                                    <path d="M5 12h14" />
-                                                    <path d="m12 5 7 7-7 7" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <button class="btn-primary btn-sm" ng-click="vm.showAddTransaction(sl, enc)">Add Transaction</button>
-                                    </div>
-
-                                    <table class="payment-table" ng-if="sl.payments.length > 0">
+                                    <table class="payment-table">
                                         <thead>
                                             <tr>
                                                 <th class="th-middle">
@@ -2062,10 +2145,29 @@
                                                 <th class="numeric">Reference №</th>
                                                 <th class="numeric">Amount</th>
                                                 <th>Adj. Codes</th>
-                                                <th></th>
+                                                <th class="td-end">
+                                                    <div class="btn-dropdown">
+                                                        <button class="btn-primary btn-sm" ng-click="vm.toggleTxnDropdown(sl, $event)">
+                                                            Add Transaction
+                                                            <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                                                                <path d="m4.427 7.427 3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.396 7H4.604a.25.25 0 0 0-.177.427Z"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <div ng-if="sl.txnDropdownOpen" ng-click="vm.closeTxnDropdown(sl)" class="overlay-backdrop"></div>
+                                                        <div ng-if="sl.txnDropdownOpen" class="btn-dropdown-menu">
+                                                            <button ng-click="vm.showAddTransaction(sl, enc, 'Client Payment')">Client Payment</button>
+                                                            <button ng-click="vm.showAddTransaction(sl, enc, 'Client Adjustment')">Client Adjustment</button>
+                                                            <button ng-click="vm.showAddTransaction(sl, enc, 'Insurance Payment')">Insurance Payment</button>
+                                                            <button ng-click="vm.showAddTransaction(sl, enc, 'Insurance Adjustment')">Insurance Adjustment</button>
+                                                        </div>
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr ng-if="sl.payments.length === 0" class="payment-empty-state">
+                                                <td colspan="8">No service line payments or adjustments</td>
+                                            </tr>
                                             <tr ng-repeat-start="pmt in sl.payments">
                                                 <td>{{pmt.date}}</td>
                                                 <td>
@@ -2082,7 +2184,7 @@
                                                 <td class="numeric">${{pmt.amount.toFixed(2)}}</td>
                                                 <td class="empty-value">–</td>
                                                 <td class="td-end">
-                                                    <button class="btn-xs-spaced" ng-click="vm.showPaymentDetail(pmt, sl)">Detail</button>
+                                                    <button class="btn-xs-spaced" ng-click="vm.showPaymentDetail(pmt, sl)">Details</button>
                                                     <button class="btn-danger btn-xs" ng-click="vm.showRefundModal(pmt, sl)">Reverse</button>
                                                 </td>
                                             </tr>
@@ -2101,29 +2203,35 @@
                                                 <td class="numeric">-${{pmt.adjAmount.toFixed(2)}}</td>
                                                 <td>{{pmt.adjCodes}}</td>
                                                 <td class="td-end">
-                                                    <button class="btn-xs-spaced">Detail</button>
+                                                    <button class="btn-xs-spaced">Details</button>
                                                     <button class="btn-xs" disabled>Reverse</button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <div ng-if="sl.payments.length === 0" class="payment-empty-state">
-                                        <span>No service line payments or adjustments</span>
-                                        <button class="btn-primary" ng-click="vm.showAddTransaction(sl, enc)">Add Transaction</button>
-                                    </div>
-
-                                    <div class="activity-log" ng-if="sl.activity.length > 0">
-                                        <strong>Activity Log</strong>
-                                        <div class="activity-input">
-                                            <input type="text" placeholder="Add a note. Notes are visible to all billers." ng-model="sl.newNote" ng-keypress="vm.handleNoteKeypress($event, sl)">
-                                            <button class="btn-primary btn-sm" ng-click="vm.addNote(sl)">Add Note</button>
+                                    <details class="activity-log" ng-if="sl.activity.length > 0">
+                                        <summary class="activity-log-summary">
+                                            <div class="activity-log-summary-label">
+                                                <span class="activity-log-icon">
+                                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+                                                    </svg>
+                                                </span>
+                                                Activity Log ({{sl.activity.length}})
+                                            </div>
+                                        </summary>
+                                        <div class="activity-log-content">
+                                            <div class="activity-input">
+                                                <input type="text" placeholder="Add a note. Notes are visible to all billers." ng-model="sl.newNote" ng-keypress="vm.handleNoteKeypress($event, sl)">
+                                                <button class="btn-primary btn-sm" ng-click="vm.addNote(sl)">Add Note</button>
+                                            </div>
+                                            <div ng-repeat="act in sl.activity" class="activity-item">
+                                                <div class="activity-time">{{act.ts}} • {{act.user}}</div>
+                                                <div>{{act.action}}</div>
+                                            </div>
                                         </div>
-                                        <div ng-repeat="act in sl.activity" class="activity-item">
-                                            <div class="activity-time">{{act.ts}} • {{act.user}}</div>
-                                            <div>{{act.action}}</div>
-                                        </div>
-                                    </div>
+                                    </details>
                                 </td>
                             </tr>
 
@@ -2423,7 +2531,7 @@
     <!-- Add Transaction Modal -->
     <dialog id="add-transaction-dialog">
         <header>
-            <h2>Add Transaction</h2>
+            <h2>Add {{vm.txnType}}</h2>
             <button type="button" ng-click="vm.closeAddTransaction()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2455,20 +2563,8 @@
                     <input id="txn-posted" type="date" ng-model="vm.txnPosted" ng-class="{error: vm.txnErrors.posted}" class="modal-field-input">
                 </div>
 
-                <!-- Transaction Type -->
-                <div>
-                    <label class="modal-form-label" for="txn-type">Transaction Type <span class="required">*</span></label>
-                    <select id="txn-type" ng-model="vm.txnType" ng-class="{error: vm.txnErrors.type}" class="modal-field-select">
-                        <option value="">Select type...</option>
-                        <option value="Client Payment">Client Payment</option>
-                        <option value="Client Adjustment">Client Adjustment</option>
-                        <option value="Insurance Payment">Insurance Payment</option>
-                        <option value="Insurance Adjustment">Insurance Adjustment</option>
-                    </select>
-                </div>
-
                 <!-- Transaction Code -->
-                <div ng-if="vm.txnType">
+                <div>
                     <label class="modal-form-label" for="txn-code">Transaction Code <span class="required">*</span></label>
                     <select id="txn-code" ng-model="vm.txnCode" ng-class="{error: vm.txnErrors.code}" class="modal-field-select">
                         <option value="">Select code...</option>
@@ -2477,7 +2573,7 @@
                 </div>
 
                 <!-- Insurance Payer -->
-                <div ng-if="vm.txnType && vm.txnType.includes('Insurance')">
+                <div ng-if="vm.txnType.includes('Insurance')">
                     <label class="modal-form-label" for="txn-payer">Insurance Payer <span class="required">*</span></label>
                     <select id="txn-payer" ng-model="vm.txnPayer" ng-class="{error: vm.txnErrors.payer}" class="modal-field-select">
                         <option value="">Select payer...</option>
@@ -3167,10 +3263,20 @@
                 });
 
                 // Add Transaction Modal
-                vm.showAddTransaction = function (sl, enc) {
+                vm.toggleTxnDropdown = function (sl, $event) {
+                    $event.stopPropagation();
+                    sl.txnDropdownOpen = !sl.txnDropdownOpen;
+                };
+
+                vm.closeTxnDropdown = function (sl) {
+                    sl.txnDropdownOpen = false;
+                };
+
+                vm.showAddTransaction = function (sl, enc, txnType) {
+                    vm.closeTxnDropdown(sl);
                     vm.addTxnServiceLine = sl;
                     vm.addTxnEncounter = enc;
-                    vm.txnType = '';
+                    vm.txnType = txnType;
                     vm.txnCode = '';
                     vm.txnPayer = '';
                     vm.txnAmount = '';
@@ -3227,9 +3333,8 @@
 
                 vm.saveTransaction = function () {
                     vm.txnErrors = {};
-                    if (!vm.txnType) vm.txnErrors.type = true;
                     if (!vm.txnCode) vm.txnErrors.code = true;
-                    if (vm.txnType && vm.txnType.includes('Insurance') && !vm.txnPayer) vm.txnErrors.payer = true;
+                    if (vm.txnType.includes('Insurance') && !vm.txnPayer) vm.txnErrors.payer = true;
                     if (!vm.txnAmount) vm.txnErrors.amount = true;
                     if (!vm.txnDate) vm.txnErrors.date = true;
                     if (!vm.txnPosted) vm.txnErrors.posted = true;
