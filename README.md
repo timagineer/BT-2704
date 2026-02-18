@@ -1,5 +1,5 @@
-# tmpl
+# BT-2704
 
-description
+prototype
 
-[tmpl.timagineer.com](https://tmpl.timagineer.com)
+[https://timagineer.github.io/BT-2704/](https://timagineer.github.io/BT-2704/)
