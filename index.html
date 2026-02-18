@@ -2526,8 +2526,8 @@
                             <td>{{vm.addTxnEncounter.date}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.charge.toFixed(2)}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.totalBal.toFixed(2)}}</td>
-                            <td class="numeric" ng-class="{'positive': vm.txnAmount, 'empty-value': !vm.txnAmount}">{{vm.txnAmount ? '$' + parseFloat(vm.txnAmount).toFixed(2) : '–'}}</td>
-                            <td class="numeric" ng-class="{'empty-value': !vm.txnAmount}">{{vm.txnAmount ? '$' + Math.max(0, vm.addTxnServiceLine.totalBal - parseFloat(vm.txnAmount)).toFixed(2) : '–'}}</td>
+                            <td class="numeric" ng-class="{'positive': vm.getApplyingAmount(), 'empty-value': !vm.getApplyingAmount()}">{{vm.getApplyingAmount() ? '$' + vm.getApplyingAmount().toFixed(2) : '–'}}</td>
+                            <td class="numeric" ng-class="{'empty-value': !vm.getAfterAmount() && vm.getAfterAmount() !== 0}">{{vm.getAfterAmount() !== null ? '$' + vm.getAfterAmount().toFixed(2) : '–'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -3198,6 +3198,17 @@
                         'Insurance Adjustment': ['Contractual Adjustment', 'Sequestration', 'Recoupment/Take-back', 'Corrected Adjustment', 'Withhold/Capitation Adj']
                     };
                     return codeMap[vm.txnType] || [];
+                };
+
+                vm.getApplyingAmount = function () {
+                    var amount = parseFloat(vm.txnAmount);
+                    return !isNaN(amount) && amount > 0 ? amount : null;
+                };
+
+                vm.getAfterAmount = function () {
+                    var applying = vm.getApplyingAmount();
+                    if (applying === null) return null;
+                    return Math.max(0, vm.addTxnServiceLine.totalBal - applying);
                 };
 
                 vm.closeAddTransaction = function () {
