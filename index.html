@@ -1187,7 +1187,7 @@
 
             /* Modal section */
             .modal-section {
-                margin-block-start: calc(var(--space-2) * -1);
+                margin-block-start: var(--space-4);
             }
 
             .modal-section-spaced {
@@ -1426,6 +1426,10 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: var(--space-4) var(--space-5);
+            }
+
+            .modal-field-full {
+                grid-column: 1 / -1;
             }
 
             .modal-field-wrapper {
@@ -1871,7 +1875,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Insurance information would appear here.</p>
+                <p class="placeholder-text">Insurance content</p>
             </div>
         </details>
 
@@ -1888,7 +1892,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Eligibility verification would appear here.</p>
+                <p class="placeholder-text">Eligibility content</p>
             </div>
         </details>
 
@@ -1905,7 +1909,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Invoicing information would appear here.</p>
+                <p class="placeholder-text">Invoicing content</p>
             </div>
         </details>
 
@@ -1922,7 +1926,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Statement history would appear here.</p>
+                <p class="placeholder-text">Statements content</p>
             </div>
         </details>
 
@@ -2276,7 +2280,7 @@
             </summary>
             <div class="details-content">
                 <div class="section-header">
-                    <h2 style="color: var(--warning-300); animation: dance 1s ease-in-out infinite;">WIP</h2>
+                    <h2 style="color: var(--warning-300); animation: dance .6s ease-in-out infinite;">WIP</h2>
                     <button class="btn-primary">+ New Payment</button>
                 </div>
                 <div class="table-wrapper">
@@ -2323,7 +2327,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Authorization information would appear here.</p>
+                <p class="placeholder-text">Managed Care Authorizations content</p>
             </div>
         </details>
 
@@ -2340,7 +2344,7 @@
                 </div>
             </summary>
             <div class="details-content">
-                <p class="placeholder-text">Saved payment methods would appear here.</p>
+                <p class="placeholder-text">Credit / Debit Cards on File content</p>
             </div>
         </details>
     </main>
@@ -2521,8 +2525,8 @@
 
             <div class="modal-footer-note">
                 <div class="modal-footer-note-input">
-                    <input type="text" placeholder="Add a note about this refund…" ng-model="vm.refundNote">
-                    <button class="btn-primary">Add Note</button>
+                    <input type="text" placeholder="Add a note about this refund…" ng-model="vm.refundNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.refundServiceLine, 'refund')">
+                    <button class="btn-primary" ng-click="vm.addModalNote(vm.refundServiceLine, vm.refundNote, 'refund')">Add Note</button>
                 </div>
             </div>
         </div>
@@ -2542,27 +2546,6 @@
         <div ng-if="vm.addTxnServiceLine">
             <!-- Form Fields -->
             <div class="modal-field-grid">
-                <!-- Amount -->
-                <div>
-                    <label class="modal-form-label" for="txn-amount">Amount <span class="required">*</span></label>
-                    <div class="modal-field-wrapper">
-                        <span class="modal-field-prefix">$</span>
-                        <input id="txn-amount" type="number" ng-model="vm.txnAmount" ng-class="{error: vm.txnErrors.amount}" step="0.01" placeholder="0.00" class="modal-field-input with-prefix tabular">
-                    </div>
-                </div>
-
-                <!-- Date -->
-                <div>
-                    <label class="modal-form-label" for="txn-date">Date <span class="required">*</span></label>
-                    <input id="txn-date" type="date" ng-model="vm.txnDate" ng-class="{error: vm.txnErrors.date}" class="modal-field-input">
-                </div>
-
-                <!-- Posted -->
-                <div>
-                    <label class="modal-form-label" for="txn-posted">Posted <span class="required">*</span></label>
-                    <input id="txn-posted" type="date" ng-model="vm.txnPosted" ng-class="{error: vm.txnErrors.posted}" class="modal-field-input">
-                </div>
-
                 <!-- Transaction Code -->
                 <div>
                     <label class="modal-form-label" for="txn-code">Transaction Code <span class="required">*</span></label>
@@ -2580,6 +2563,27 @@
                         <option value="Primary">Aetna (Primary)</option>
                         <option value="Secondary">Blue Cross (Secondary)</option>
                     </select>
+                </div>
+
+                <!-- Amount -->
+                <div ng-class="{'modal-field-full': vm.txnType.includes('Insurance')}">
+                    <label class="modal-form-label" for="txn-amount">Amount <span class="required">*</span></label>
+                    <div class="modal-field-wrapper">
+                        <span class="modal-field-prefix">$</span>
+                        <input id="txn-amount" type="number" ng-model="vm.txnAmount" ng-class="{error: vm.txnErrors.amount}" step="0.01" placeholder="0.00" class="modal-field-input with-prefix tabular">
+                    </div>
+                </div>
+
+                <!-- Date -->
+                <div>
+                    <label class="modal-form-label" for="txn-date">Date <span class="required">*</span></label>
+                    <input id="txn-date" type="date" ng-model="vm.txnDate" ng-class="{error: vm.txnErrors.date}" class="modal-field-input">
+                </div>
+
+                <!-- Posted -->
+                <div>
+                    <label class="modal-form-label" for="txn-posted">Posted <span class="required">*</span></label>
+                    <input id="txn-posted" type="date" ng-model="vm.txnPosted" ng-class="{error: vm.txnErrors.posted}" class="modal-field-input">
                 </div>
 
                 <!-- Source -->
@@ -2638,8 +2642,8 @@
             <!-- Note Section -->
             <div class="modal-footer-note">
                 <div class="modal-footer-note-input">
-                    <input type="text" placeholder="Add a note about this transaction…" ng-model="vm.txnNote">
-                    <button class="btn-primary">Add Note</button>
+                    <input type="text" placeholder="Add a note about this transaction…" ng-model="vm.txnNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.addTxnServiceLine, 'txn')">
+                    <button class="btn-primary" ng-click="vm.addModalNote(vm.addTxnServiceLine, vm.txnNote, 'txn')">Add Note</button>
                 </div>
             </div>
         </div>
@@ -3298,10 +3302,10 @@
 
                 vm.getTxnCodes = function () {
                     var codeMap = {
-                        'Client Payment': ['Copay', 'Coinsurance', 'Deductible', 'Account Payment'],
-                        'Client Adjustment': ['Courtesy Adjustment', 'Hardship Adj', 'Small Balance Write-Off', 'Bad Debt'],
-                        'Insurance Payment': ['Manual EOB Posting', 'ERA Correction', 'Secondary/Tertiary Payment', 'Reconsideration Payment', 'Appeal Payment'],
-                        'Insurance Adjustment': ['Contractual Adjustment', 'Sequestration', 'Recoupment/Take-back', 'Corrected Adjustment', 'Withhold/Capitation Adj']
+                        'Client Payment': ['Account Payment', 'Coinsurance', 'Copay', 'Deductible'],
+                        'Client Adjustment': ['Bad Debt', 'Courtesy Adjustment', 'Hardship Adjustment', 'Small Balance Write-Off'],
+                        'Insurance Payment': ['Appeal Payment', 'ERA Correction', 'Manual EOB Posting', 'Reconsideration Payment', 'Secondary/Tertiary Payment'],
+                        'Insurance Adjustment': ['Contractual Adjustment', 'Corrected Adjustment', 'Recoupment/Take-back', 'Sequestration', 'Withhold/Capitation Adjustment']
                     };
                     return codeMap[vm.txnType] || [];
                 };
@@ -3348,6 +3352,31 @@
                     e.preventDefault();
                     vm.closeAddTransaction();
                 });
+
+                vm.addModalNote = function (sl, noteText, type) {
+                    var noteVar = type === 'refund' ? 'refundNote' : 'txnNote';
+                    if (!vm[noteVar] || !vm[noteVar].trim()) return;
+                    var now = new Date();
+                    var ts = (now.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                        now.getDate().toString().padStart(2, '0') + '/' +
+                        now.getFullYear() + ' ' +
+                        (now.getHours() % 12 || 12) + ':' +
+                        now.getMinutes().toString().padStart(2, '0') + ' ' +
+                        (now.getHours() >= 12 ? 'PM' : 'AM');
+                    if (!sl.activity) sl.activity = [];
+                    sl.activity.unshift({
+                        ts: ts,
+                        user: '[ Current User ]',
+                        action: vm[noteVar].trim()
+                    });
+                    vm[noteVar] = '';
+                };
+
+                vm.handleModalNoteKeypress = function ($event, sl, type) {
+                    if ($event.key === 'Enter') {
+                        vm.addModalNote(sl, null, type);
+                    }
+                };
             });
     </script>
 </body>
