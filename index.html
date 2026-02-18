@@ -8,11 +8,6 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-        /* layout debugger */
-        * {
-            /* outline: 0.5px dashed deeppink; */
-        }
-
         @layer config {
             :root {
                 /* Primary Scale (16 steps) - Blue hue 216° */
@@ -944,11 +939,12 @@
                 padding: 0.125rem;
                 border: none;
                 background: transparent;
-                color: var(--text-secondary);
+                color: var(--gray-250);
                 cursor: pointer;
-                transition: color var(--transition-fast);
+                transition: all var(--transition-fast);
                 margin-right: 0.25rem;
-                vertical-align: text-bottom;
+                vertical-align: -0.125em;
+                border-radius: 0.1875rem;
             }
 
             .info-icon svg {
@@ -958,12 +954,16 @@
 
             .info-icon:hover {
                 color: var(--text);
-                background: transparent;
+                background: var(--gray-550);
                 border-color: transparent;
             }
 
-            .info-icon.active {
-                color: var(--primary-300);
+            .info-icon:hover svg {
+                background: transparent;
+            }
+
+            .info-icon.active svg {
+                background: transparent;
             }
 
             /* Info tooltip */
@@ -1637,13 +1637,24 @@
                 cursor: pointer;
                 display: inline-flex;
                 align-items: center;
-                color: var(--text-secondary);
-                vertical-align: text-bottom;
-                transition: color var(--transition-fast);
+                color: var(--gray-250);
+                vertical-align: -0.125em;
+                transition: all var(--transition-fast);
+                border-radius: 0.1875rem;
+            }
+
+            .sort-btn svg {
+                width: 14px;
+                height: 14px;
             }
 
             .sort-btn:hover {
                 color: var(--text);
+                background: var(--gray-550);
+            }
+
+            .sort-btn:hover svg {
+                background: transparent;
             }
 
             /* Overlay backdrop */
@@ -2756,20 +2767,43 @@
                     $event.stopPropagation();
                     vm.paidInfoOpen = !vm.paidInfoOpen;
                     vm.adjInfoOpen = false;
+                    if (vm.paidInfoOpen) {
+                        document.addEventListener('keydown', vm.handleInfoEscKey);
+                    } else {
+                        document.removeEventListener('keydown', vm.handleInfoEscKey);
+                    }
                 };
 
                 vm.closePaidInfo = function () {
                     vm.paidInfoOpen = false;
+                    document.removeEventListener('keydown', vm.handleInfoEscKey);
                 };
 
                 vm.toggleAdjInfo = function ($event) {
                     $event.stopPropagation();
                     vm.adjInfoOpen = !vm.adjInfoOpen;
                     vm.paidInfoOpen = false;
+                    if (vm.adjInfoOpen) {
+                        document.addEventListener('keydown', vm.handleInfoEscKey);
+                    } else {
+                        document.removeEventListener('keydown', vm.handleInfoEscKey);
+                    }
                 };
 
                 vm.closeAdjInfo = function () {
                     vm.adjInfoOpen = false;
+                    document.removeEventListener('keydown', vm.handleInfoEscKey);
+                };
+
+                vm.handleInfoEscKey = function (e) {
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        $scope.$apply(function () {
+                            vm.paidInfoOpen = false;
+                            vm.adjInfoOpen = false;
+                            document.removeEventListener('keydown', vm.handleInfoEscKey);
+                        });
+                    }
                 };
 
                 vm.getPaidBreakdown = function () {
