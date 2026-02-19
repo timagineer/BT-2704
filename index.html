@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ledgerApp">
 
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -259,11 +260,24 @@
                 color: var(--primary-350);
                 text-decoration: none;
                 font-weight: 600;
+                border-radius: 0.125rem;
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
             }
 
             a:hover {
                 text-decoration: underline;
                 color: var(--primary-300);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                a {
+                    transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            a:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             table {
@@ -398,9 +412,19 @@
                 transform: translateX(1rem);
             }
 
+            .freeze-toggle input[type="checkbox"] {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .freeze-toggle input[type="checkbox"] {
+                    transition: background var(--transition-fast), box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
             .freeze-toggle input[type="checkbox"]:focus-visible {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 2px;
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             /* Details/Summary (Accordions) */
@@ -428,9 +452,19 @@
                 background: var(--hover-bg);
             }
 
+            summary {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                summary {
+                    transition: background-color var(--transition-fast), box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
             summary:focus-visible {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 2px;
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             .summary-label {
@@ -499,6 +533,11 @@
 
             .stat-positive {
                 color: var(--positive-250);
+            }
+
+            .value-balance {
+                color: var(--warning-300);
+                font-weight: 600;
             }
 
             /* Details content */
@@ -797,9 +836,19 @@
                 color: var(--text-secondary);
             }
 
-            .activity-input input:focus {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 0;
+            .activity-input input {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .activity-input input {
+                    transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .activity-input input:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             .activity-item {
@@ -875,6 +924,12 @@
                 margin-inline-start: var(--space-1);
             }
 
+            .badge-count-info {
+                background: var(--info-550);
+                color: var(--info-150);
+                font-size: 0.875rem;
+            }
+
             /* Buttons */
             button {
                 padding: var(--space-2) var(--space-3);
@@ -917,9 +972,19 @@
                 background: var(--button-primary-bg);
             }
 
+            button {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                button {
+                    transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
             button:focus-visible {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 2px;
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             .btn-primary {
@@ -1024,6 +1089,21 @@
 
             .info-icon.active svg {
                 background: transparent;
+            }
+
+            .info-icon {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .info-icon {
+                    transition: all var(--transition-fast), box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .info-icon:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             /* Info tooltip */
@@ -1439,10 +1519,19 @@
                 outline-color: var(--warning-300);
             }
 
-            .modal-field-input:focus,
-            .modal-field-select:focus {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 0;
+            @media (prefers-reduced-motion: no-preference) {
+
+                .modal-field-input,
+                .modal-field-select {
+                    box-shadow: 0 0 0 0 0 var(--focus-ring);
+                    transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .modal-field-input:focus-visible,
+            .modal-field-select:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             .modal-field-input[type="date"]::-webkit-calendar-picker-indicator {
@@ -1460,6 +1549,11 @@
 
             .modal-field-input.tabular {
                 font-variant-numeric: tabular-nums;
+            }
+
+            .modal-field-input,
+            .modal-field-select {
+                box-shadow: 0 0 0 0 0 transparent;
             }
 
             .modal-field-select {
@@ -1485,7 +1579,7 @@
 
             .modal-field-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
                 gap: var(--space-4) var(--space-5);
             }
 
@@ -1528,9 +1622,19 @@
                 pointer-events: none;
             }
 
-            .modal-input:focus {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 0;
+            .modal-input {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .modal-input {
+                    transition: opacity 180ms ease, box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .modal-input:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             .modal-input.error {
@@ -1553,11 +1657,18 @@
                 font-size: var(--font-size-base);
                 font-family: inherit;
                 resize: vertical;
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
             }
 
-            .modal-textarea:focus {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 0;
+            @media (prefers-reduced-motion: no-preference) {
+                .modal-textarea {
+                    transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .modal-textarea:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             /* Modal footer */
@@ -1596,9 +1707,19 @@
                 color: var(--text-secondary);
             }
 
-            .modal-footer-note-input input:focus {
-                outline: 2px solid var(--focus-ring);
-                outline-offset: 0;
+            .modal-footer-note-input input {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .modal-footer-note-input input {
+                    transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .modal-footer-note-input input:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             /* Modal table danger row */
@@ -1716,6 +1837,21 @@
 
             .sort-btn:hover svg {
                 background: transparent;
+            }
+
+            .sort-btn {
+                box-shadow: 0 0 0 0 0 var(--focus-ring);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .sort-btn {
+                    transition: all var(--transition-fast), box-shadow var(--transition-fast) var(--ease-out-quadratic);
+                }
+            }
+
+            .sort-btn:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 2px 3px var(--focus-ring);
             }
 
             /* Overlay backdrop */
@@ -2191,9 +2327,9 @@
                                 <td class="numeric">${{enc.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{enc.totalPaid.toFixed(2)}}</td>
                                 <td class="numeric">{{enc.insAdj > 0 ? '-$' + enc.insAdj.toFixed(2) : '$0.00'}}</td>
-                                <td class="numeric">${{enc.clientBal.toFixed(2)}}</td>
-                                <td class="numeric">${{enc.insBal.toFixed(2)}}</td>
-                                <td class="numeric">${{enc.totalBal.toFixed(2)}}</td>
+                                <td class="numeric">{{enc.clientBal.toFixed(2)}}</td>
+                                <td class="numeric">{{enc.insBal.toFixed(2)}}</td>
+                                <td class="numeric" ng-class="{'value-balance': enc.totalBal > 0}">${{enc.totalBal.toFixed(2)}}</td>
                             </tr>
 
                             <tr ng-repeat-start="sl in enc.serviceLines" ng-show="enc.expanded && vm.showEncounter(enc)" class="service-line-row" ng-class="{expanded: sl.expanded}" ng-click="vm.toggleServiceLine(sl)">
@@ -2209,9 +2345,9 @@
                                 <td class="numeric">${{sl.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{sl.paid.toFixed(2)}}</td>
                                 <td class="numeric">{{sl.insAdj > 0 ? '-$' + sl.insAdj.toFixed(2) : '$0.00'}}</td>
-                                <td class="numeric">${{sl.clientBal.toFixed(2)}}</td>
-                                <td class="numeric">${{sl.insBal.toFixed(2)}}</td>
-                                <td class="numeric">${{sl.totalBal.toFixed(2)}}</td>
+                                <td class="numeric">{{sl.clientBal.toFixed(2)}}</td>
+                                <td class="numeric">{{sl.insBal.toFixed(2)}}</td>
+                                <td class="numeric" ng-class="{'value-balance': sl.totalBal > 0}">${{sl.totalBal.toFixed(2)}}</td>
                             </tr>
                             <tr ng-repeat-end ng-show="sl.expanded && vm.showEncounter(enc)">
                                 <td colspan="11" class="payment-wrapper">
@@ -2308,12 +2444,12 @@
                                                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                                                     </svg>
                                                 </span>
-                                                Activity Log <span class="badge-count" style="background: var(--info-550); color: var(--info-150);">{{sl.activity.length}}</span>
+                                                Activity Log <span class="badge-count badge-count-info">{{sl.activity.length}}</span>
                                             </div>
                                         </summary>
                                         <div class="activity-log-content">
                                             <div class="activity-input">
-                                                <input type="text" placeholder="Add a note. Notes are visible to all billers." ng-model="sl.newNote" ng-keypress="vm.handleNoteKeypress($event, sl)">
+                                                <input type="text" placeholder="Add an optional note. Notes are visible to all billers." ng-model="sl.newNote" ng-keypress="vm.handleNoteKeypress($event, sl)">
                                                 <button class="btn-primary btn-sm" ng-click="vm.addNote(sl)">Add Note</button>
                                             </div>
                                             <div ng-repeat="act in sl.activity" class="activity-item">
@@ -2409,8 +2545,8 @@
                                 <td>{{pmt.source}}</td>
                                 <td class="numeric">${{pmt.amount.toFixed(2)}}</td>
                                 <td class="numeric">
-                                    <span ng-if="pmt.unapplied === 0" class="badge badge-insurance badge-applied">Fully Applied</span>
-                                    <span ng-if="pmt.unapplied > 0">${{pmt.unapplied.toFixed(2)}}</span>
+                                    <span ng-if="pmt.unapplied === 0" class="badge badge-insurance badge-signed">Fully Applied</span>
+                                    <span ng-if="pmt.unapplied > 0" class="value-balance">${{pmt.unapplied.toFixed(2)}}</span>
                                 </td>
                                 <td class="td-end">
                                     <button class="btn-xs-spaced" ng-click="vm.showUnappliedDetails(pmt)">Details</button>
@@ -2473,14 +2609,6 @@
         <div ng-if="vm.selectedPayment">
             <div class="modal-field-grid">
                 <div>
-                    <div class="modal-field-label">Transaction Type</div>
-                    <div class="modal-field-value">{{vm.selectedPaymentType || vm.selectedPayment.type}}</div>
-                </div>
-                <div>
-                    <div class="modal-field-label">Payer</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.payer}}</div>
-                </div>
-                <div>
                     <div class="modal-field-label">Payment Date</div>
                     <div class="modal-field-value">{{vm.selectedPayment.date}}</div>
                 </div>
@@ -2489,19 +2617,31 @@
                     <div class="modal-field-value">{{vm.selectedPayment.date}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Source</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.source || '–'}}</div>
-                </div>
-                <div>
                     <div class="modal-field-label">Reference №</div>
                     <div class="modal-field-value">{{vm.selectedPayment.checkNum}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Type</div>
+                    <div class="modal-field-value">{{vm.selectedPaymentType || vm.selectedPayment.type}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Code</div>
+                    <div class="modal-field-value">–</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Amount</div>
                     <div class="modal-field-value">${{vm.selectedPayment.amount.toFixed(2)}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Adjustment Amount (Code)</div>
+                    <div class="modal-field-label">Payer</div>
+                    <div class="modal-field-value">{{vm.selectedPayment.payer}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Source</div>
+                    <div class="modal-field-value">{{vm.selectedPayment.source || '–'}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Adjusted Amount (Code)</div>
                     <div class="modal-field-value">{{vm.selectedPayment.adjAmount > 0 ? '-$' + vm.selectedPayment.adjAmount.toFixed(2) + (vm.selectedPayment.adjCodes ? ' (' + vm.selectedPayment.adjCodes + ')' : '') : '–'}}</div>
                 </div>
             </div>
@@ -2652,34 +2792,6 @@
         <div ng-if="vm.addTxnServiceLine">
             <!-- Form Fields -->
             <div class="modal-field-grid">
-                <!-- Transaction Code -->
-                <div>
-                    <label class="modal-form-label" for="txn-code">Transaction Code <span class="required">*</span></label>
-                    <select id="txn-code" ng-model="vm.txnCode" ng-class="{error: vm.txnErrors.code}" class="modal-field-select">
-                        <option value="">Select code...</option>
-                        <option ng-repeat="code in vm.getTxnCodes()" value="{{code}}">{{code}}</option>
-                    </select>
-                </div>
-
-                <!-- Insurance Payer -->
-                <div ng-if="vm.txnType.includes('Insurance')">
-                    <label class="modal-form-label" for="txn-payer">Insurance Payer <span class="required">*</span></label>
-                    <select id="txn-payer" ng-model="vm.txnPayer" ng-class="{error: vm.txnErrors.payer}" class="modal-field-select">
-                        <option value="">Select payer...</option>
-                        <option value="Primary">Aetna (Primary)</option>
-                        <option value="Secondary">Blue Cross (Secondary)</option>
-                    </select>
-                </div>
-
-                <!-- Amount -->
-                <div ng-class="{'modal-field-full': vm.txnType.includes('Insurance')}">
-                    <label class="modal-form-label" for="txn-amount">Amount <span class="required">*</span></label>
-                    <div class="modal-field-wrapper">
-                        <span class="modal-field-prefix">$</span>
-                        <input id="txn-amount" type="number" ng-model="vm.txnAmount" ng-class="{error: vm.txnErrors.amount}" step="0.01" placeholder="0.00" class="modal-field-input with-prefix tabular">
-                    </div>
-                </div>
-
                 <!-- Date -->
                 <div>
                     <label class="modal-form-label" for="txn-date">Date <span class="required">*</span></label>
@@ -2690,6 +2802,52 @@
                 <div>
                     <label class="modal-form-label" for="txn-posted">Posted <span class="required">*</span></label>
                     <input id="txn-posted" type="date" ng-model="vm.txnPosted" ng-class="{error: vm.txnErrors.posted}" class="modal-field-input">
+                </div>
+
+                <!-- Reference Number -->
+                <div>
+                    <label class="modal-form-label" for="txn-ref">Reference №</label>
+                    <input id="txn-ref" type="text" ng-model="vm.txnRefNum" placeholder="Check №, EFT №, etc." class="modal-field-input tabular">
+                </div>
+
+                <!-- Transaction Type -->
+                <div>
+                    <label class="modal-form-label" for="txn-type">Transaction Type <span class="required">*</span></label>
+                    <select id="txn-type" ng-model="vm.txnType" ng-change="vm.onTxnTypeChange()" ng-class="{error: vm.txnErrors.type}" class="modal-field-select">
+                        <option value="Client Payment">Client Payment</option>
+                        <option value="Client Adjustment">Client Adjustment</option>
+                        <option value="Insurance Payment">Insurance Payment</option>
+                        <option value="Insurance Adjustment">Insurance Adjustment</option>
+                    </select>
+                </div>
+
+                <!-- Transaction Code -->
+                <div>
+                    <label class="modal-form-label" for="txn-code">Transaction Code <span class="required">*</span></label>
+                    <select id="txn-code" ng-model="vm.txnCode" ng-class="{error: vm.txnErrors.code}" class="modal-field-select">
+                        <option value="">Select code...</option>
+                        <option ng-repeat="code in vm.getTxnCodes()" value="{{code}}">{{code}}</option>
+                    </select>
+                </div>
+
+                <!-- Amount -->
+                <div>
+                    <label class="modal-form-label" for="txn-amount">Amount <span class="required">*</span></label>
+                    <div class="modal-field-wrapper">
+                        <span class="modal-field-prefix">$</span>
+                        <input id="txn-amount" type="number" ng-model="vm.txnAmount" ng-class="{error: vm.txnErrors.amount}" step="0.01" placeholder="0.00" class="modal-field-input with-prefix tabular">
+                    </div>
+                </div>
+
+                <!-- Payer -->
+                <div>
+                    <label class="modal-form-label" for="txn-payer">Payer <span class="required" ng-if="vm.txnType.includes('Insurance')">*</span></label>
+                    <select id="txn-payer" ng-if="vm.txnType.includes('Insurance')" ng-model="vm.txnPayer" ng-class="{error: vm.txnErrors.payer}" class="modal-field-select">
+                        <option value="">Select payer...</option>
+                        <option value="Primary">Aetna (Primary)</option>
+                        <option value="Secondary">Blue Cross (Secondary)</option>
+                    </select>
+                    <div ng-if="!vm.txnType.includes('Insurance')" class="modal-field-value">Pat Patient</div>
                 </div>
 
                 <!-- Source -->
@@ -2706,10 +2864,10 @@
                     </select>
                 </div>
 
-                <!-- Reference Number -->
+                <!-- Adjusted Amount (Code) -->
                 <div>
-                    <label class="modal-form-label" for="txn-ref">Reference Number</label>
-                    <input id="txn-ref" type="text" ng-model="vm.txnRefNum" placeholder="Check №, EFT №, etc." class="modal-field-input tabular">
+                    <label class="modal-form-label">Adjusted Amount (Code)</label>
+                    <div class="modal-field-value">–</div>
                 </div>
             </div>
 
@@ -3560,6 +3718,11 @@
                             d.classList.add('animate-in');
                         });
                     });
+                };
+
+                vm.onTxnTypeChange = function () {
+                    vm.txnCode = '';
+                    vm.txnPayer = '';
                 };
 
                 vm.getTxnCodes = function () {
