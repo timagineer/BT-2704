@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-        
+
         @layer config {
             :root {
                 --primary-50: hsl(216, 53%, 10%);
@@ -356,6 +356,7 @@
                 align-items: center;
                 gap: var(--space-2);
                 font-size: 0.8125rem;
+                font-weight: 500;
                 color: var(--text-secondary);
             }
 
@@ -839,7 +840,7 @@
 
             .badge-signed {
                 background: var(--positive-550);
-                color: var(--positive-200);
+                color: var(--positive-150);
             }
 
             .badge-finished {
@@ -863,11 +864,15 @@
                 vertical-align: baseline;
             }
 
-            .badge-applied {
-                background: var(--positive-550);
-                color: var(--positive-200);
-                text-transform: none;
-                letter-spacing: 0;
+            .badge-count {
+                display: inline-block;
+                padding: 0.125rem var(--space-2);
+                background: var(--notice-550);
+                color: var(--notice-150);
+                font-size: 0.9375rem;
+                font-weight: 600;
+                border-radius: var(--radius);
+                margin-inline-start: var(--space-1);
             }
 
             /* Buttons */
@@ -1220,7 +1225,7 @@
             /* Modal field grid */
             .modal-field-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: 1fr 1fr;
                 gap: var(--space-4) var(--space-4);
                 margin-block-end: var(--space-4);
             }
@@ -1349,7 +1354,7 @@
 
             /* Modal form controls */
             .modal-form-group {
-                margin-block-end: var(--space-5);
+                margin-block-end: var(--space-2);
             }
 
             .modal-form-label {
@@ -2009,7 +2014,7 @@
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
                     </span>
-                    Account Ledger
+                    Account Ledger <span class="badge-count">{{vm.getOpenBalanceCount()}}</span>
                 </div>
                 <div class="summary-stats">
                     <div class="summary-stat">
@@ -2288,7 +2293,7 @@
                                                 <td class="numeric">-${{pmt.adjAmount.toFixed(2)}}</td>
                                                 <td>{{pmt.adjCodes}}</td>
                                                 <td class="td-end">
-                                                    <button class="btn-xs-spaced">Details</button>
+                                                    <button class="btn-xs-spaced" ng-click="vm.showPaymentDetail(pmt, sl, 'Insurance Adjustment')">Details</button>
                                                     <button class="btn-xs" disabled>Reverse</button>
                                                 </td>
                                             </tr>
@@ -2303,7 +2308,7 @@
                                                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                                                     </svg>
                                                 </span>
-                                                Activity Log ({{sl.activity.length}})
+                                                Activity Log <span class="badge-count" style="background: var(--info-550); color: var(--info-150);">{{sl.activity.length}}</span>
                                             </div>
                                         </summary>
                                         <div class="activity-log-content">
@@ -2350,7 +2355,7 @@
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
                     </span>
-                    Unapplied Payments (3)
+                    Unapplied Payments <span class="badge-count">3</span>
                 </div>
                 <div class="summary-stats">
                     <div class="summary-stat">
@@ -2469,15 +2474,11 @@
             <div class="modal-field-grid">
                 <div>
                     <div class="modal-field-label">Transaction Type</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.type}}</div>
+                    <div class="modal-field-value">{{vm.selectedPaymentType || vm.selectedPayment.type}}</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Payer</div>
                     <div class="modal-field-value">{{vm.selectedPayment.payer}}</div>
-                </div>
-                <div>
-                    <div class="modal-field-label">Source</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.source || '–'}}</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Payment Date</div>
@@ -2488,20 +2489,20 @@
                     <div class="modal-field-value">{{vm.selectedPayment.date}}</div>
                 </div>
                 <div>
+                    <div class="modal-field-label">Source</div>
+                    <div class="modal-field-value">{{vm.selectedPayment.source || '–'}}</div>
+                </div>
+                <div>
                     <div class="modal-field-label">Reference №</div>
                     <div class="modal-field-value">{{vm.selectedPayment.checkNum}}</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Amount</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.amount.toFixed(2)}}</div>
+                    <div class="modal-field-value">${{vm.selectedPayment.amount.toFixed(2)}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Adjustment Amount</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.adjAmount > 0 ? '-$' + vm.selectedPayment.adjAmount.toFixed(2) : '–'}}</div>
-                </div>
-                <div>
-                    <div class="modal-field-label">Adjustment Code</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.adjCodes || '–'}}</div>
+                    <div class="modal-field-label">Adjustment Amount (Code)</div>
+                    <div class="modal-field-value">{{vm.selectedPayment.adjAmount > 0 ? '-$' + vm.selectedPayment.adjAmount.toFixed(2) + (vm.selectedPayment.adjCodes ? ' (' + vm.selectedPayment.adjCodes + ')' : '') : '–'}}</div>
                 </div>
             </div>
 
@@ -2520,7 +2521,7 @@
                     <tbody>
                         <tr>
                             <td>{{vm.selectedServiceLine.cpt}} - {{vm.selectedServiceLine.desc}}</td>
-                            <td class="secondary">{{vm.selectedPayment.date}}</td>
+                            <td>{{vm.selectedPayment.date}}</td>
                             <td class="numeric">${{vm.selectedServiceLine.charge.toFixed(2)}}</td>
                             <td class="numeric positive">${{vm.selectedPayment.amount.toFixed(2)}}</td>
                             <td class="numeric"><button class="btn-danger btn-xs">Unapply</button></td>
@@ -2553,16 +2554,16 @@
                     <div class="modal-field-value">{{vm.refundPayment.date}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Reference №</div>
-                    <div class="modal-field-value">{{vm.refundPayment.checkNum}}</div>
-                </div>
-                <div>
                     <div class="modal-field-label">Amount</div>
                     <div class="modal-field-value">${{vm.refundPayment.amount.toFixed(2)}}</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Adjustment Amount</div>
                     <div class="modal-field-value">{{vm.refundPayment.adjAmount > 0 ? '-$' + vm.refundPayment.adjAmount.toFixed(2) : '–'}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Reference №</div>
+                    <div class="modal-field-value">{{vm.refundPayment.checkNum}}</div>
                 </div>
                 <div>
                     <div class="modal-field-label">Adjustment Code</div>
@@ -2630,7 +2631,7 @@
 
             <div class="modal-footer-note">
                 <div class="modal-footer-note-input">
-                    <input type="text" placeholder="Add a note about this refund…" ng-model="vm.refundNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.refundServiceLine, 'refund')">
+                    <input type="text" placeholder="Add an optional note about this refund…" ng-model="vm.refundNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.refundServiceLine, 'refund')">
                     <button class="btn-primary" ng-click="vm.addModalNote(vm.refundServiceLine, vm.refundNote, 'refund')">Add Note</button>
                 </div>
             </div>
@@ -2747,7 +2748,7 @@
             <!-- Note Section -->
             <div class="modal-footer-note">
                 <div class="modal-footer-note-input">
-                    <input type="text" placeholder="Add a note about this transaction…" ng-model="vm.txnNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.addTxnServiceLine, 'txn')">
+                    <input type="text" placeholder="Add an optional note about this transaction…" ng-model="vm.txnNote" ng-keypress="vm.handleModalNoteKeypress($event, vm.addTxnServiceLine, 'txn')">
                     <button class="btn-primary" ng-click="vm.addModalNote(vm.addTxnServiceLine, vm.txnNote, 'txn')">Add Note</button>
                 </div>
             </div>
@@ -2917,6 +2918,12 @@
                 vm.getVisiblePaymentCount = function () {
                     return vm.unappliedPayments.filter(function (pmt) {
                         return vm.showUnappliedPayment(pmt);
+                    }).length;
+                };
+
+                vm.getOpenBalanceCount = function () {
+                    return vm.encounters.filter(function (enc) {
+                        return enc.totalBal > 0;
                     }).length;
                 };
 
@@ -3419,9 +3426,10 @@
                     }
                 };
 
-                vm.showPaymentDetail = function (pmt, sl) {
+                vm.showPaymentDetail = function (pmt, sl, typeOverride) {
                     vm.selectedPayment = pmt;
                     vm.selectedServiceLine = sl;
+                    vm.selectedPaymentType = typeOverride || pmt.type;
                     var d = document.getElementById('payment-detail-dialog');
                     d.classList.remove('animate-in');
                     d.showModal();
