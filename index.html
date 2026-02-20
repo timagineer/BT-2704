@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ledgerApp">
 
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -354,6 +353,9 @@
                 background: var(--info-550);
                 border: 1px solid var(--info-500);
                 border-radius: var(--radius);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .statement-info a {
@@ -586,7 +588,9 @@
             }
 
             th.numeric,
-            td.numeric {
+            td.numeric,
+            th.code,
+            td.code {
                 text-align: end;
             }
 
@@ -1307,8 +1311,15 @@
             .modal-field-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: var(--space-4) var(--space-4);
+                gap: var(--space-3);
                 margin-block-end: var(--space-5);
+            }
+
+            .modal-field-grid.cards>div,
+            .modal-field-grid-2col.cards>div {
+                border: 1px solid var(--gray-550);
+                border-radius: 0.375rem;
+                padding: var(--space-3);
             }
 
             .modal-warning+.modal-form-group {
@@ -1358,7 +1369,8 @@
                 border-block-end: 1px solid var(--border-subtle);
             }
 
-            .modal-table th.numeric {
+            .modal-table th.numeric,
+            .modal-table th.code {
                 text-align: end;
             }
 
@@ -1370,7 +1382,8 @@
                 vertical-align: middle;
             }
 
-            .modal-table td.numeric {
+            .modal-table td.numeric,
+            .modal-table td.code {
                 text-align: end;
             }
 
@@ -1480,7 +1493,7 @@
                 font-size: var(--font-size-sm);
                 font-weight: 600;
                 color: var(--text);
-                margin-block-end: var(--space-1);
+                margin-block-end: var(--space-0);
             }
 
             .modal-field-value {
@@ -1538,6 +1551,14 @@
                 margin-inline-start: var(--space-1);
                 opacity: 1;
                 transition: opacity 180ms ease;
+            }
+
+            .modal-input-distribute {
+                text-align: left;
+                margin-inline-start: 0;
+                padding-inline-start: var(--space-2);
+                padding-inline-end: 0;
+                padding-block: 0;
             }
 
             .modal-field-input {
@@ -1628,14 +1649,14 @@
             .modal-field-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
-                gap: var(--space-4) var(--space-5);
+                gap: var(--space-3) var(--space-3);
                 margin-block-end: var(--space-5);
             }
 
             .modal-field-grid-2col {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: var(--space-4) var(--space-4);
+                gap: var(--space-3) var(--space-3);
             }
 
             .modal-field-full {
@@ -1735,6 +1756,19 @@
                 padding-block-end: var(--space-8);
                 margin-block-start: calc(var(--space-4) * -1);
                 margin-block-end: var(--space-4);
+            }
+
+            .modal-footer-spaced {
+                margin-block-start: var(--space-5);
+            }
+
+            .modal-table-wrapper {
+                max-block-size: 18rem;
+                overflow-y: auto;
+            }
+
+            .modal-input-narrow {
+                inline-size: 3.75rem;
             }
 
             .modal-footer-note {
@@ -2396,7 +2430,8 @@
                                         </svg>
                                     </span>
                                 </td>
-                                <td colspan="3" class="service-line-label">{{sl.cpt}} <span class="empty-value">–</span> {{sl.desc}}</td>
+                                <td class="code">{{sl.cpt}}</td>
+                                <td colspan="2">{{sl.desc}}</td>
                                 <td class="numeric">${{sl.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{sl.paid.toFixed(2)}}</td>
                                 <td class="numeric">{{sl.insAdj > 0 ? '-$' + sl.insAdj.toFixed(2) : '$0.00'}}</td>
@@ -2662,13 +2697,13 @@
             </button>
         </header>
         <div ng-if="vm.selectedPayment">
-            <div class="modal-field-grid">
+            <div class="modal-field-grid cards">
                 <div>
-                    <div class="modal-field-label">Payment Date</div>
+                    <div class="modal-field-label">Date</div>
                     <div class="modal-field-value">{{vm.selectedPayment.date}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Posted Date</div>
+                    <div class="modal-field-label">Posted</div>
                     <div class="modal-field-value">{{vm.selectedPayment.date}}</div>
                 </div>
                 <div>
@@ -2706,8 +2741,9 @@
                 <table class="modal-table">
                     <thead>
                         <tr>
-                            <th>Service Code</th>
-                            <th>Posted Date</th>
+                            <th class="code">Code</th>
+                            <th>Description</th>
+                            <th>Posted</th>
                             <th class="numeric">Charge</th>
                             <th class="numeric">Paid</th>
                             <th class="numeric"></th>
@@ -2715,7 +2751,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{vm.selectedServiceLine.cpt}} - {{vm.selectedServiceLine.desc}}</td>
+                            <td class="code">{{vm.selectedServiceLine.cpt}}</td>
+                            <td>{{vm.selectedServiceLine.desc}}</td>
                             <td>{{vm.selectedPayment.date}}</td>
                             <td class="numeric">${{vm.selectedServiceLine.charge.toFixed(2)}}</td>
                             <td class="numeric positive">${{vm.selectedPayment.amount.toFixed(2)}}</td>
@@ -2739,7 +2776,7 @@
             </button>
         </header>
         <div ng-if="vm.refundPayment">
-            <div class="modal-field-grid">
+            <div class="modal-field-grid cards">
                 <div>
                     <div class="modal-field-label">Payer</div>
                     <div class="modal-field-value">{{vm.refundPayment.payer}}</div>
@@ -2801,7 +2838,8 @@
             <table class="modal-table">
                 <thead>
                     <tr>
-                        <th>Service Code</th>
+                        <th class="code">Code</th>
+                        <th>Description</th>
                         <th class="numeric">Charge</th>
                         <th class="numeric">Paid</th>
                         <th class="numeric">Refund</th>
@@ -2809,7 +2847,8 @@
                 </thead>
                 <tbody>
                     <tr ng-if="vm.refundServiceLine">
-                        <td>{{vm.refundServiceLine.cpt}} <span class="empty-value">–</span> {{vm.refundServiceLine.desc}}</td>
+                        <td class="code">{{vm.refundServiceLine.cpt}}</td>
+                        <td>{{vm.refundServiceLine.desc}}</td>
                         <td class="numeric">${{vm.refundServiceLine.charge.toFixed(2)}}</td>
                         <td class="numeric">${{vm.refundPayment.amount.toFixed(2)}}</td>
                         <td class="numeric danger">-${{vm.getRefundAmount().toFixed(2)}}</td>
@@ -2929,7 +2968,8 @@
                 <table class="modal-table">
                     <thead>
                         <tr>
-                            <th>Service</th>
+                            <th class="code">Code</th>
+                            <th>Description</th>
                             <th>DOS</th>
                             <th class="numeric">Charge</th>
                             <th class="numeric">Current Bal</th>
@@ -2939,7 +2979,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{vm.addTxnServiceLine.cpt}} <span class="empty-value">–</span> {{vm.addTxnServiceLine.desc}}</td>
+                            <td class="code">{{vm.addTxnServiceLine.cpt}}</td>
+                            <td>{{vm.addTxnServiceLine.desc}}</td>
                             <td>{{vm.addTxnEncounter.date}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.charge.toFixed(2)}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.totalBal.toFixed(2)}}</td>
@@ -2978,7 +3019,7 @@
             </button>
         </header>
         <div ng-if="vm.selectedUnappliedPayment">
-            <div class="modal-field-grid-2col">
+            <div class="modal-field-grid-2col cards">
                 <div>
                     <div class="modal-field-label">Payer</div>
                     <div class="modal-field-value">Pat Patient</div>
@@ -3015,117 +3056,52 @@
 
             <div class="modal-section">
                 <div class="modal-section-header">Application History</div>
-                <div style="max-block-size: 18rem; overflow-y: auto;">
+                <div class="modal-table-wrapper">
                     <table class="modal-table">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Service Code</th>
-                                <th>Posted</th>
+                                <th class="code">Code</th>
+                                <th>Description</th>
+                                <th class="th-middle">
+                                    DOS
+                                    <button ng-click="vm.toggleAppHistoryDateSort()" class="sort-btn">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m21 16-4 4-4-4" />
+                                            <path d="M17 20V4" />
+                                            <path d="m3 8 4-4 4 4" />
+                                            <path d="M7 4v16" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="th-middle">
+                                    Posted
+                                    <button ng-click="vm.toggleAppHistoryPostedSort()" class="sort-btn">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m21 16-4 4-4-4" />
+                                            <path d="M17 20V4" />
+                                            <path d="m3 8 4-4 4 4" />
+                                            <path d="M7 4v16" />
+                                        </svg>
+                                    </button>
+                                </th>
                                 <th class="numeric">Charge</th>
                                 <th class="numeric">Applied</th>
                                 <th class="numeric"></th>
                             </tr>
                         </thead>
-                        <tbody ng-if="vm.selectedUnappliedPayment.refNum === 'PAY-5590'">
-                            <tr>
-                                <td>01/15/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
+                        <tbody ng-if="vm.appHistory.length > 0">
+                            <tr ng-repeat="item in vm.appHistory">
+                                <td class="code">{{item.code}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.date}}</td>
+                                <td>{{item.posted}}</td>
+                                <td class="numeric">${{item.charge.toFixed(2)}}</td>
+                                <td class="numeric positive">${{item.applied.toFixed(2)}}</td>
                                 <td class="numeric"><button class="btn-xs">Unapply</button></td>
                             </tr>
-                            <tr>
-                                <td>12/08/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>11/12/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>10/01/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>09/10/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>08/15/2025</td>
-                                <td>90834 – Psychotherapy, 45 min</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$175.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>07/22/2025</td>
-                                <td>90837 – Psychotherapy, 60 min</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$200.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>06/18/2025</td>
-                                <td>90834 – Psychotherapy, 45 min</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$175.00</td>
-                                <td class="numeric positive">$23.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>05/14/2025</td>
-                                <td>90791 – Psychiatric Eval</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$145.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>04/09/2025</td>
-                                <td>90837 – Psychotherapy, 60 min</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$200.00</td>
-                                <td class="numeric positive">$28.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>03/05/2025</td>
-                                <td>90834 – Psychotherapy, 45 min</td>
-                                <td>02/13/2026</td>
-                                <td class="numeric">$175.00</td>
-                                <td class="numeric positive">$6.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
-                            <tr>
-                                <td>01/15/2025</td>
-                                <td>90837 – Psychotherapy, 60 min</td>
-                                <td>02/15/2025</td>
-                                <td class="numeric">$200.00</td>
-                                <td class="numeric positive">$10.00</td>
-                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
-                            </tr>
+
                         </tbody>
-                        <tbody ng-if="vm.selectedUnappliedPayment.refNum !== 'PAY-5590'">
+                        <tbody ng-if="vm.appHistory.length === 0">
                             <tr class="payment-empty-state">
                                 <td colspan="6">No applications. The entire amount is unapplied</td>
                             </tr>
@@ -3148,13 +3124,13 @@
             </button>
         </header>
         <div ng-if="vm.distributePayment">
-            <div class="modal-field-grid">
+            <div class="modal-field-grid cards">
                 <div>
-                    <div class="modal-field-label">Payment Date</div>
+                    <div class="modal-field-label">Date</div>
                     <div class="modal-field-value">{{vm.distributePayment.date}}</div>
                 </div>
                 <div>
-                    <div class="modal-field-label">Posted Date</div>
+                    <div class="modal-field-label">Posted</div>
                     <div class="modal-field-value">{{vm.distributePayment.date}}</div>
                 </div>
                 <div>
@@ -3204,8 +3180,9 @@
             <table class="modal-table">
                 <thead>
                     <tr>
-                        <th>Encounter Date</th>
-                        <th>Service Code</th>
+                        <th>DOS</th>
+                        <th class="code">Code</th>
+                        <th>Description</th>
                         <th class="numeric">Charge</th>
                         <th class="numeric">Client Bal</th>
                         <th class="numeric">Payment</th>
@@ -3214,12 +3191,13 @@
                 <tbody>
                     <tr ng-repeat="line in vm.getDistributableLines()">
                         <td>{{line.encDate}}</td>
-                        <td>{{line.cpt}} <span class="empty-value">–</span> {{line.desc}}</td>
+                        <td class="code">{{line.cpt}}</td>
+                        <td>{{line.desc}}</td>
                         <td class="numeric">${{line.charge.toFixed(2)}}</td>
                         <td class="numeric">${{line.clientBal.toFixed(2)}}</td>
                         <td class="numeric">
-                            <input type="number" ng-if="vm.distMode === 'manual'" ng-model="line.distAmount" step="0.01" min="0" max="{{line.clientBal}}" class="modal-input" style="inline-size: 5.5rem;">
-                            <span ng-if="vm.distMode === 'auto'" class="positive">${{vm.getAutoDistAmount(line).toFixed(2)}}</span>
+                            <span ng-if="vm.distMode === 'auto'">${{(line.distAmount || 0).toFixed(2)}}</span>
+                            <input ng-if="vm.distMode === 'manual'" type="number" placeholder="0.00" step="1" min="0" class="modal-input modal-input-distribute modal-input-narrow">
                         </td>
                     </tr>
                 </tbody>
@@ -3326,7 +3304,7 @@
                 </div>
             </div>
 
-            <div class="modal-footer" style="margin-block-start: var(--space-5);">
+            <div class="modal-footer modal-footer-spaced">
                 <button ng-click="vm.closeNewPayment()">Cancel</button>
                 <button class="btn-primary" ng-click="vm.saveNewPayment()">Save as Unapplied</button>
             </div>
@@ -3471,6 +3449,18 @@
                     vm.unappliedPayments.reverse();
                 };
 
+                vm.toggleAppHistoryDateSort = function () {
+                    vm.appHistoryDateSort = vm.appHistoryDateSort === 'desc' ? 'asc' : 'desc';
+                    vm.appHistoryPostedSort = null;
+                    vm.appHistory.reverse();
+                };
+
+                vm.toggleAppHistoryPostedSort = function () {
+                    vm.appHistoryPostedSort = vm.appHistoryPostedSort === 'desc' ? 'asc' : 'desc';
+                    vm.appHistoryDateSort = null;
+                    vm.appHistory.reverse();
+                };
+
                 vm.toggleSelect = function (enc, $event) {
                     $event.stopPropagation();
                     enc.selected = !enc.selected;
@@ -3583,42 +3573,6 @@
                 };
 
                 vm.encounters = [
-                    {
-                        id: 4,
-                        date: '12/15/2024',
-                        clinician: 'Dr. Tina',
-                        noteStatus: 'Finished',
-                        charge: 250,
-                        totalPaid: 0,
-                        insAdj: 0,
-                        clientBal: 0,
-                        insBal: 250,
-                        totalBal: 250,
-                        expanded: false,
-                        selected: false,
-                        serviceLines: [
-                            {
-                                id: '4a',
-                                cpt: '90791',
-                                desc: 'Psychiatric Eval',
-                                charge: 250,
-                                paid: 0,
-                                insAdj: 0,
-                                clientBal: 0,
-                                insBal: 250,
-                                totalBal: 250,
-                                expanded: false,
-                                payments: [],
-                                activity: [
-                                    {
-                                        ts: '12/15/2024 4:15 PM',
-                                        user: 'Dr. Tina',
-                                        action: 'Note finished, pending signature'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     {
                         id: 1,
                         date: '01/15/2025',
@@ -3852,6 +3806,42 @@
                                 expanded: false,
                                 payments: [],
                                 activity: []
+                            }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        date: '12/15/2024',
+                        clinician: 'Dr. Tina',
+                        noteStatus: 'Finished',
+                        charge: 250,
+                        totalPaid: 0,
+                        insAdj: 0,
+                        clientBal: 0,
+                        insBal: 250,
+                        totalBal: 250,
+                        expanded: false,
+                        selected: false,
+                        serviceLines: [
+                            {
+                                id: '4a',
+                                cpt: '90791',
+                                desc: 'Psychiatric Eval',
+                                charge: 250,
+                                paid: 0,
+                                insAdj: 0,
+                                clientBal: 0,
+                                insBal: 250,
+                                totalBal: 250,
+                                expanded: false,
+                                payments: [],
+                                activity: [
+                                    {
+                                        ts: '12/15/2024 4:15 PM',
+                                        user: 'Dr. Tina',
+                                        action: 'Note finished, pending signature'
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -4182,6 +4172,24 @@
                 // Unapplied Payment Details Modal
                 vm.showUnappliedDetails = function (pmt) {
                     vm.selectedUnappliedPayment = pmt;
+                    if (pmt.refNum === 'PAY-5590') {
+                        vm.appHistory = [
+                            { code: '90834', description: 'Psychotherapy, 45 min', date: '08/15/2025', posted: '02/13/2026', charge: 175.00, applied: 28.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '01/15/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90837', description: 'Psychotherapy, 60 min', date: '07/22/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '12/08/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90834', description: 'Psychotherapy, 45 min', date: '06/18/2025', posted: '02/13/2026', charge: 175.00, applied: 23.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '11/12/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90837', description: 'Psychotherapy, 60 min', date: '04/09/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '10/01/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '05/14/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90791', description: 'Psychiatric Eval', date: '09/10/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90834', description: 'Psychotherapy, 45 min', date: '03/05/2025', posted: '02/13/2026', charge: 175.00, applied: 6.00 },
+                            { code: '90837', description: 'Psychotherapy, 60 min', date: '01/15/2025', posted: '02/15/2025', charge: 200.00, applied: 28.00 }
+                        ];
+                    } else {
+                        vm.appHistory = [];
+                    }
                     var d = document.getElementById('unapplied-details-dialog');
                     d.classList.remove('animate-in');
                     d.showModal();
@@ -4244,7 +4252,7 @@
                                     desc: sl.desc,
                                     charge: sl.charge,
                                     clientBal: sl.clientBal,
-                                    distAmount: 0
+                                    distAmount: ''
                                 });
                             }
                         });
