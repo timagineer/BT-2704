@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ledgerApp">
 
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -728,8 +729,9 @@
                 vertical-align: middle;
             }
 
+            .unapplied-table th:nth-last-child(2),
             .unapplied-table td:nth-last-child(2) {
-                padding-inline-end: var(--space-6);
+                padding-inline-end: var(--space-5);
             }
 
             .unapplied-table th:last-child,
@@ -1306,7 +1308,11 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: var(--space-4) var(--space-4);
-                margin-block-end: var(--space-4);
+                margin-block-end: var(--space-5);
+            }
+
+            .modal-warning+.modal-form-group {
+                margin-block-start: 0;
             }
 
             /* Modal section */
@@ -1360,7 +1366,7 @@
                 padding: 0.5625rem 0.625rem;
                 font-size: var(--font-size-base);
                 color: var(--text);
-                border-block-end: none;
+                border-block-end: 1px solid var(--border-subtle);
                 vertical-align: middle;
             }
 
@@ -1377,9 +1383,13 @@
                 font-weight: 600;
             }
 
+            .modal-table tbody:last-child tr:last-child td {
+                border-block-end: none;
+            }
+
             /* Modal warning banner */
             .modal-warning {
-                margin-block-end: var(--space-5);
+                margin-block-end: var(--space-4);
                 padding: var(--space-3);
                 background: var(--warning-700);
                 border: 1px solid var(--warning-500);
@@ -1455,7 +1465,7 @@
 
             /* Modal form controls */
             .modal-form-group {
-                margin-block-end: var(--space-2);
+                margin-block-end: var(--space-4);
             }
 
             .modal-form-label {
@@ -1466,9 +1476,22 @@
                 display: block;
             }
 
+            .modal-field-label {
+                font-size: var(--font-size-sm);
+                font-weight: 600;
+                color: var(--text);
+                margin-block-end: var(--space-1);
+            }
+
+            .modal-field-value {
+                font-size: var(--font-size-base);
+                color: var(--text);
+            }
+
             .modal-radio-group {
                 display: flex;
                 gap: var(--space-4);
+                margin-block-end: var(--space-2);
             }
 
             .modal-radio-label {
@@ -1606,6 +1629,7 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
                 gap: var(--space-4) var(--space-5);
+                margin-block-end: var(--space-5);
             }
 
             .modal-field-grid-2col {
@@ -1791,7 +1815,7 @@
 
         @layer utilities {
             .empty-value {
-                color: var(--gray-450);
+                color: var(--gray-350);
             }
 
             .visually-hidden {
@@ -2372,7 +2396,7 @@
                                         </svg>
                                     </span>
                                 </td>
-                                <td colspan="3" class="service-line-label">{{sl.cpt}} – {{sl.desc}}</td>
+                                <td colspan="3" class="service-line-label">{{sl.cpt}} <span class="empty-value">–</span> {{sl.desc}}</td>
                                 <td class="numeric">${{sl.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{sl.paid.toFixed(2)}}</td>
                                 <td class="numeric">{{sl.insAdj > 0 ? '-$' + sl.insAdj.toFixed(2) : '$0.00'}}</td>
@@ -2657,7 +2681,7 @@
                 </div>
                 <div>
                     <div class="modal-field-label">Transaction Code</div>
-                    <div class="modal-field-value">–</div>
+                    <div class="modal-field-value"><span class="empty-value">–</span></div>
                 </div>
                 <div>
                     <div class="modal-field-label">Amount</div>
@@ -2669,11 +2693,11 @@
                 </div>
                 <div>
                     <div class="modal-field-label">Source</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.source || '–'}}</div>
+                    <div class="modal-field-value"><span ng-if="!vm.selectedPayment.source" class="empty-value">–</span><span ng-if="vm.selectedPayment.source">{{vm.selectedPayment.source}}</span></div>
                 </div>
                 <div>
                     <div class="modal-field-label">Adjusted Amount (Code)</div>
-                    <div class="modal-field-value">{{vm.selectedPayment.adjAmount > 0 ? '-$' + vm.selectedPayment.adjAmount.toFixed(2) + (vm.selectedPayment.adjCodes ? ' (' + vm.selectedPayment.adjCodes + ')' : '') : '–'}}</div>
+                    <div class="modal-field-value"><span ng-if="vm.selectedPayment.adjAmount <= 0" class="empty-value">–</span><span ng-if="vm.selectedPayment.adjAmount > 0">-${{vm.selectedPayment.adjAmount.toFixed(2)}}<span ng-if="vm.selectedPayment.adjCodes"> ({{vm.selectedPayment.adjCodes}})</span></span></div>
                 </div>
             </div>
 
@@ -2730,7 +2754,7 @@
                 </div>
                 <div>
                     <div class="modal-field-label">Adjustment Amount</div>
-                    <div class="modal-field-value">{{vm.refundPayment.adjAmount > 0 ? '-$' + vm.refundPayment.adjAmount.toFixed(2) : '–'}}</div>
+                    <div class="modal-field-value"><span ng-if="vm.refundPayment.adjAmount <= 0" class="empty-value">–</span><span ng-if="vm.refundPayment.adjAmount > 0">-${{vm.refundPayment.adjAmount.toFixed(2)}}</span></div>
                 </div>
                 <div>
                     <div class="modal-field-label">Reference №</div>
@@ -2738,7 +2762,7 @@
                 </div>
                 <div>
                     <div class="modal-field-label">Adjustment Code</div>
-                    <div class="modal-field-value">{{vm.refundPayment.adjCodes || '–'}}</div>
+                    <div class="modal-field-value"><span ng-if="!vm.refundPayment.adjCodes" class="empty-value">–</span><span ng-if="vm.refundPayment.adjCodes">{{vm.refundPayment.adjCodes}}</span></div>
                 </div>
             </div>
 
@@ -2774,26 +2798,24 @@
                 </div>
             </div>
 
-            <div class="modal-section">
-                <table class="modal-table">
-                    <thead>
-                        <tr>
-                            <th>Service Code</th>
-                            <th class="numeric">Charge</th>
-                            <th class="numeric">Paid</th>
-                            <th class="numeric">Refund</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-if="vm.refundServiceLine">
-                            <td>{{vm.refundServiceLine.cpt}} – {{vm.refundServiceLine.desc}}</td>
-                            <td class="numeric">${{vm.refundServiceLine.charge.toFixed(2)}}</td>
-                            <td class="numeric">${{vm.refundPayment.amount.toFixed(2)}}</td>
-                            <td class="numeric danger">-${{vm.getRefundAmount().toFixed(2)}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <table class="modal-table">
+                <thead>
+                    <tr>
+                        <th>Service Code</th>
+                        <th class="numeric">Charge</th>
+                        <th class="numeric">Paid</th>
+                        <th class="numeric">Refund</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.refundServiceLine">
+                        <td>{{vm.refundServiceLine.cpt}} <span class="empty-value">–</span> {{vm.refundServiceLine.desc}}</td>
+                        <td class="numeric">${{vm.refundServiceLine.charge.toFixed(2)}}</td>
+                        <td class="numeric">${{vm.refundPayment.amount.toFixed(2)}}</td>
+                        <td class="numeric danger">-${{vm.getRefundAmount().toFixed(2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div class="modal-footer">
                 <button ng-click="vm.closeRefundModal()">Cancel</button>
@@ -2898,7 +2920,7 @@
                 <!-- Adjusted Amount (Code) -->
                 <div>
                     <label class="modal-form-label">Adjusted Amount (Code)</label>
-                    <div class="modal-field-value">–</div>
+                    <div class="modal-field-value"><span class="empty-value">–</span></div>
                 </div>
             </div>
 
@@ -2917,7 +2939,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{vm.addTxnServiceLine.cpt}} – {{vm.addTxnServiceLine.desc}}</td>
+                            <td>{{vm.addTxnServiceLine.cpt}} <span class="empty-value">–</span> {{vm.addTxnServiceLine.desc}}</td>
                             <td>{{vm.addTxnEncounter.date}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.charge.toFixed(2)}}</td>
                             <td class="numeric">${{vm.addTxnServiceLine.totalBal.toFixed(2)}}</td>
@@ -2955,9 +2977,162 @@
                 </svg>
             </button>
         </header>
-        <div>
-            <p class="placeholder-text">Unapplied payment details content</p>
-            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+        <div ng-if="vm.selectedUnappliedPayment">
+            <div class="modal-field-grid-2col">
+                <div>
+                    <div class="modal-field-label">Payer</div>
+                    <div class="modal-field-value">Pat Patient</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Type</div>
+                    <div class="modal-field-value">{{vm.selectedUnappliedPayment.type}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Date</div>
+                    <div class="modal-field-value">{{vm.selectedUnappliedPayment.date}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Posted</div>
+                    <div class="modal-field-value">{{vm.selectedUnappliedPayment.date}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Total <span class="empty-value">/</span> Unapplied</div>
+                    <div class="modal-field-value">${{vm.selectedUnappliedPayment.amount.toFixed(2)}} <span class="empty-value">/</span> <span class="value-balance">${{vm.selectedUnappliedPayment.unapplied.toFixed(2)}}</span></div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Code</div>
+                    <div class="modal-field-value"><span ng-if="!vm.selectedUnappliedPayment.code" class="empty-value">–</span><span ng-if="vm.selectedUnappliedPayment.code">{{vm.selectedUnappliedPayment.code}}</span></div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Source</div>
+                    <div class="modal-field-value"><span ng-if="!vm.selectedUnappliedPayment.source" class="empty-value">–</span><span ng-if="vm.selectedUnappliedPayment.source">{{vm.selectedUnappliedPayment.source}}</span></div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Reference №</div>
+                    <div class="modal-field-value">{{vm.selectedUnappliedPayment.refNum}}</div>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-header">Application History</div>
+                <div style="max-block-size: 18rem; overflow-y: auto;">
+                    <table class="modal-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Service Code</th>
+                                <th>Posted</th>
+                                <th class="numeric">Charge</th>
+                                <th class="numeric">Applied</th>
+                                <th class="numeric"></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="vm.selectedUnappliedPayment.refNum === 'PAY-5590'">
+                            <tr>
+                                <td>01/15/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>12/08/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>11/12/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>10/01/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>09/10/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>08/15/2025</td>
+                                <td>90834 – Psychotherapy, 45 min</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$175.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>07/22/2025</td>
+                                <td>90837 – Psychotherapy, 60 min</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$200.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>06/18/2025</td>
+                                <td>90834 – Psychotherapy, 45 min</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$175.00</td>
+                                <td class="numeric positive">$23.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>05/14/2025</td>
+                                <td>90791 – Psychiatric Eval</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$145.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>04/09/2025</td>
+                                <td>90837 – Psychotherapy, 60 min</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$200.00</td>
+                                <td class="numeric positive">$28.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>03/05/2025</td>
+                                <td>90834 – Psychotherapy, 45 min</td>
+                                <td>02/13/2026</td>
+                                <td class="numeric">$175.00</td>
+                                <td class="numeric positive">$6.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                            <tr>
+                                <td>01/15/2025</td>
+                                <td>90837 – Psychotherapy, 60 min</td>
+                                <td>02/15/2025</td>
+                                <td class="numeric">$200.00</td>
+                                <td class="numeric positive">$10.00</td>
+                                <td class="numeric"><button class="btn-xs">Unapply</button></td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="vm.selectedUnappliedPayment.refNum !== 'PAY-5590'">
+                            <tr class="payment-empty-state">
+                                <td colspan="6">No applications. The entire amount is unapplied</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </dialog>
 
@@ -2992,7 +3167,7 @@
                 </div>
                 <div>
                     <div class="modal-field-label">Transaction Code</div>
-                    <div class="modal-field-value">–</div>
+                    <div class="modal-field-value"><span class="empty-value">–</span></div>
                 </div>
                 <div>
                     <div class="modal-field-label">Amount</div>
@@ -3013,8 +3188,8 @@
             </div>
 
             <div class="modal-form-group">
-                <div class="modal-form-label">Distribution Mode</div>
-                <div class="modal-radio-group">
+                <div class="modal-form-label" style="margin-block-end: var(--space-3);">Distribution Mode</div>
+                <div class="modal-radio-group" style="margin-block-end: var(--space-5);">
                     <label class="modal-radio-label">
                         <input type="radio" name="distMode" value="auto" ng-model="vm.distMode">
                         <span>Auto-distribute to oldest balances</span>
@@ -3026,31 +3201,29 @@
                 </div>
             </div>
 
-            <div class="modal-section">
-                <table class="modal-table">
-                    <thead>
-                        <tr>
-                            <th>Encounter Date</th>
-                            <th>Service Code</th>
-                            <th class="numeric">Charge</th>
-                            <th class="numeric">Client Bal</th>
-                            <th class="numeric">Payment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="line in vm.getDistributableLines()">
-                            <td>{{line.encDate}}</td>
-                            <td>{{line.cpt}} – {{line.desc}}</td>
-                            <td class="numeric">${{line.charge.toFixed(2)}}</td>
-                            <td class="numeric">${{line.clientBal.toFixed(2)}}</td>
-                            <td class="numeric">
-                                <input type="number" ng-if="vm.distMode === 'manual'" ng-model="line.distAmount" step="0.01" min="0" max="{{line.clientBal}}" class="modal-input" style="inline-size: 5.5rem;">
-                                <span ng-if="vm.distMode === 'auto'" class="positive">${{vm.getAutoDistAmount(line).toFixed(2)}}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <table class="modal-table">
+                <thead>
+                    <tr>
+                        <th>Encounter Date</th>
+                        <th>Service Code</th>
+                        <th class="numeric">Charge</th>
+                        <th class="numeric">Client Bal</th>
+                        <th class="numeric">Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="line in vm.getDistributableLines()">
+                        <td>{{line.encDate}}</td>
+                        <td>{{line.cpt}} <span class="empty-value">–</span> {{line.desc}}</td>
+                        <td class="numeric">${{line.charge.toFixed(2)}}</td>
+                        <td class="numeric">${{line.clientBal.toFixed(2)}}</td>
+                        <td class="numeric">
+                            <input type="number" ng-if="vm.distMode === 'manual'" ng-model="line.distAmount" step="0.01" min="0" max="{{line.clientBal}}" class="modal-input" style="inline-size: 5.5rem;">
+                            <span ng-if="vm.distMode === 'auto'" class="positive">${{vm.getAutoDistAmount(line).toFixed(2)}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div class="modal-footer">
                 <button ng-click="vm.closeDistribute()">Cancel</button>
@@ -3116,17 +3289,6 @@
                 </div>
 
                 <div>
-                    <label class="modal-form-label" for="new-pmt-code">Transaction Code <span class="required">*</span></label>
-                    <select id="new-pmt-code" ng-model="vm.newPmtCode" ng-class="{error: vm.newPmtErrors.code}" class="modal-field-select">
-                        <option value="">Select code...</option>
-                        <option value="Account Payment">Account Payment</option>
-                        <option value="Coinsurance">Coinsurance</option>
-                        <option value="Copay">Copay</option>
-                        <option value="Deductible">Deductible</option>
-                    </select>
-                </div>
-
-                <div>
                     <label class="modal-form-label" for="new-pmt-amount">Amount <span class="required">*</span></label>
                     <div class="modal-field-wrapper">
                         <span class="modal-field-prefix">$</span>
@@ -3135,8 +3297,14 @@
                 </div>
 
                 <div>
-                    <label class="modal-form-label" for="new-pmt-ref">Reference №</label>
-                    <input id="new-pmt-ref" type="text" ng-model="vm.newPmtRefNum" placeholder="Check №, EFT №, etc." class="modal-field-input tabular">
+                    <label class="modal-form-label" for="new-pmt-code">Transaction Code <span class="required">*</span></label>
+                    <select id="new-pmt-code" ng-model="vm.newPmtCode" ng-class="{error: vm.newPmtErrors.code}" class="modal-field-select">
+                        <option value="">Select code...</option>
+                        <option value="Account Payment">Account Payment</option>
+                        <option value="Coinsurance">Coinsurance</option>
+                        <option value="Copay">Copay</option>
+                        <option value="Deductible">Deductible</option>
+                    </select>
                 </div>
 
                 <div>
@@ -3150,6 +3318,11 @@
                         <option value="Money Order">Money Order</option>
                         <option value="Other">Other</option>
                     </select>
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-ref">Reference №</label>
+                    <input id="new-pmt-ref" type="text" ng-model="vm.newPmtRefNum" placeholder="Check №, EFT №, etc." class="modal-field-input tabular">
                 </div>
             </div>
 
@@ -3513,7 +3686,7 @@
                                         date: '02/10/2025',
                                         payer: 'Pat Patient',
                                         type: 'Client Payment',
-                                        checkNum: '**** 7832',
+                                        checkNum: '••••7832',
                                         source: 'Credit Card',
                                         amount: 10,
                                         adjAmount: 0,
