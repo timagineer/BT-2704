@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ledgerApp">
 
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1310,22 +1309,6 @@
                 margin-block-end: var(--space-4);
             }
 
-            .modal-field-label {
-                font-size: var(--font-size-xs);
-                font-weight: 600;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                margin-block-end: 0.1875rem;
-                line-height: 1;
-            }
-
-            .modal-field-value {
-                font-size: var(--font-size-base);
-                font-weight: 500;
-                color: var(--text);
-            }
-
             /* Modal section */
             .modal-section {
                 margin-block-start: var(--space-4);
@@ -1432,6 +1415,44 @@
                 line-height: 1.5;
             }
 
+            /* Modal notice banner */
+            .modal-notice {
+                margin-block-end: var(--space-5);
+                padding: var(--space-3);
+                background: var(--notice-700);
+                border: 1px solid var(--notice-450);
+                border-radius: var(--radius);
+                display: flex;
+                gap: var(--space-2);
+            }
+
+            .modal-notice-icon {
+                flex-shrink: 0;
+                color: var(--notice-250);
+            }
+
+            .modal-notice-icon svg {
+                inline-size: 1rem;
+                block-size: 1rem;
+            }
+
+            .modal-notice-content {
+                flex: 1;
+            }
+
+            .modal-notice-title {
+                font-size: var(--font-size-sm);
+                font-weight: 600;
+                color: var(--text);
+                margin-block-end: var(--space-1);
+            }
+
+            .modal-notice-text {
+                font-size: var(--font-size-sm);
+                color: var(--text);
+                line-height: 1.5;
+            }
+
             /* Modal form controls */
             .modal-form-group {
                 margin-block-end: var(--space-2);
@@ -1508,6 +1529,10 @@
                 color: var(--text);
             }
 
+            .modal-field-value {
+                font-size: var(--font-size-base);
+            }
+
             .modal-field-input.error,
             .modal-field-select.error {
                 border-color: var(--warning-300);
@@ -1560,12 +1585,12 @@
                 inline-size: 100%;
                 padding-block: var(--space-2);
                 padding-inline-start: var(--space-3);
-                padding-inline-end: 2.25rem;
+                padding-inline-end: var(--space-3);
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
                 font-size: var(--font-size-base);
                 font-family: inherit;
-                background: var(--surface) url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+                background: var(--surface) url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right var(--space-3) center;
                 color: var(--text);
                 appearance: none;
                 text-indent: 0;
@@ -1581,6 +1606,12 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
                 gap: var(--space-4) var(--space-5);
+            }
+
+            .modal-field-grid-2col {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-4) var(--space-4);
             }
 
             .modal-field-full {
@@ -2483,7 +2514,7 @@
         </details>
 
         <!-- Unapplied Payments -->
-        <details>
+        <details open>
             <summary>
                 <div class="summary-label">
                     <span class="summary-icon">
@@ -2528,8 +2559,8 @@
                                     </button>
                                 </th>
                                 <th>Reference №</th>
-                                <th>Type</th>
                                 <th>Source</th>
+                                <th>Transaction Code</th>
                                 <th class="numeric">Amount</th>
                                 <th class="numeric">Unapplied</th>
                                 <th class="td-end">
@@ -2538,11 +2569,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="pmt in vm.unappliedPayments" ng-show="vm.showUnappliedPayment(pmt)">
+                            <tr ng-repeat="pmt in vm.unappliedPayments" ng-show="vm.showUnappliedPayment(pmt)" ng-init="$first && (pmt.code = pmt.code || 'Account Payment'); $index === 1 && (pmt.code = pmt.code || 'Copay')">
                                 <td>{{pmt.date}}</td>
                                 <td>{{pmt.refNum}}</td>
-                                <td>{{pmt.type}}</td>
                                 <td>{{pmt.source}}</td>
+                                <td>{{pmt.code || '–'}}</td>
                                 <td class="numeric">${{pmt.amount.toFixed(2)}}</td>
                                 <td class="numeric">
                                     <span ng-if="pmt.unapplied === 0" class="badge badge-insurance badge-signed">Fully Applied</span>
@@ -2941,9 +2972,97 @@
                 </svg>
             </button>
         </header>
-        <div>
-            <p class="placeholder-text">Distribute payment content</p>
-            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+        <div ng-if="vm.distributePayment">
+            <div class="modal-field-grid">
+                <div>
+                    <div class="modal-field-label">Payment Date</div>
+                    <div class="modal-field-value">{{vm.distributePayment.date}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Posted Date</div>
+                    <div class="modal-field-value">{{vm.distributePayment.date}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Reference №</div>
+                    <div class="modal-field-value">{{vm.distributePayment.refNum}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Type</div>
+                    <div class="modal-field-value">{{vm.distributePayment.type}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Transaction Code</div>
+                    <div class="modal-field-value">–</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Amount</div>
+                    <div class="modal-field-value">${{vm.distributePayment.amount.toFixed(2)}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Payer</div>
+                    <div class="modal-field-value">Pat Patient</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Source</div>
+                    <div class="modal-field-value">{{vm.distributePayment.source}}</div>
+                </div>
+                <div>
+                    <div class="modal-field-label">Unapplied Balance</div>
+                    <div class="modal-field-value">${{vm.distributePayment.unapplied.toFixed(2)}}</div>
+                </div>
+            </div>
+
+            <div class="modal-form-group">
+                <div class="modal-form-label">Distribution Mode</div>
+                <div class="modal-radio-group">
+                    <label class="modal-radio-label">
+                        <input type="radio" name="distMode" value="auto" ng-model="vm.distMode">
+                        <span>Auto-distribute to oldest balances</span>
+                    </label>
+                    <label class="modal-radio-label">
+                        <input type="radio" name="distMode" value="manual" ng-model="vm.distMode">
+                        <span>Manually distribute</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <table class="modal-table">
+                    <thead>
+                        <tr>
+                            <th>Encounter Date</th>
+                            <th>Service Code</th>
+                            <th class="numeric">Charge</th>
+                            <th class="numeric">Client Bal</th>
+                            <th class="numeric">Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="line in vm.getDistributableLines()">
+                            <td>{{line.encDate}}</td>
+                            <td>{{line.cpt}} – {{line.desc}}</td>
+                            <td class="numeric">${{line.charge.toFixed(2)}}</td>
+                            <td class="numeric">${{line.clientBal.toFixed(2)}}</td>
+                            <td class="numeric">
+                                <input type="number" ng-if="vm.distMode === 'manual'" ng-model="line.distAmount" step="0.01" min="0" max="{{line.clientBal}}" class="modal-input" style="inline-size: 5.5rem;">
+                                <span ng-if="vm.distMode === 'auto'" class="positive">${{vm.getAutoDistAmount(line).toFixed(2)}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button ng-click="vm.closeDistribute()">Cancel</button>
+                <button class="btn-primary" ng-disabled="!vm.canDistribute()">Distribute Payment</button>
+            </div>
+
+            <div class="modal-footer-note">
+                <div class="modal-footer-note-input">
+                    <input type="text" placeholder="Add an optional note about this distribution…" ng-model="vm.distNote" ng-keypress="vm.handleDistNoteKeypress($event)">
+                    <button class="btn-primary" ng-click="vm.addDistNote()">Add Note</button>
+                </div>
+            </div>
         </div>
     </dialog>
 
@@ -2959,8 +3078,92 @@
             </button>
         </header>
         <div>
-            <p class="placeholder-text">New payment content</p>
-            <div style="font-size: 4rem; text-align: center; margin: 2rem 0; animation: dance 0.5s ease-in-out infinite;">🚧</div>
+            <div class="modal-notice">
+                <div class="modal-notice-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                        <path d="M12 18V6" />
+                    </svg>
+                </div>
+                <div class="modal-notice-content">
+                    <div class="modal-notice-title">Unapplied Client Payment</div>
+                    <div class="modal-notice-text">
+                        This payment will be held as unapplied. To apply funds to specific service lines, use Distribute.<br>For insurance payments and adjustments, post directly from the service line.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-field-grid-2col">
+                <div>
+                    <label class="modal-form-label">Payer</label>
+                    <div class="modal-field-value">Pat Patient</div>
+                </div>
+
+                <div>
+                    <label class="modal-form-label">Transaction Type</label>
+                    <div class="modal-field-value">Client Payment</div>
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-date">Date <span class="required">*</span></label>
+                    <input id="new-pmt-date" type="date" ng-model="vm.newPmtDate" ng-class="{error: vm.newPmtErrors.date}" class="modal-field-input">
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-posted">Posted <span class="required">*</span></label>
+                    <input id="new-pmt-posted" type="date" ng-model="vm.newPmtPosted" ng-class="{error: vm.newPmtErrors.posted}" class="modal-field-input">
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-code">Transaction Code <span class="required">*</span></label>
+                    <select id="new-pmt-code" ng-model="vm.newPmtCode" ng-class="{error: vm.newPmtErrors.code}" class="modal-field-select">
+                        <option value="">Select code...</option>
+                        <option value="Account Payment">Account Payment</option>
+                        <option value="Coinsurance">Coinsurance</option>
+                        <option value="Copay">Copay</option>
+                        <option value="Deductible">Deductible</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-amount">Amount <span class="required">*</span></label>
+                    <div class="modal-field-wrapper">
+                        <span class="modal-field-prefix">$</span>
+                        <input id="new-pmt-amount" type="number" ng-model="vm.newPmtAmount" ng-class="{error: vm.newPmtErrors.amount}" step="0.01" placeholder="0.00" class="modal-field-input with-prefix tabular">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-ref">Reference №</label>
+                    <input id="new-pmt-ref" type="text" ng-model="vm.newPmtRefNum" placeholder="Check №, EFT №, etc." class="modal-field-input tabular">
+                </div>
+
+                <div>
+                    <label class="modal-form-label" for="new-pmt-source">Source</label>
+                    <select id="new-pmt-source" ng-model="vm.newPmtSource" class="modal-field-select">
+                        <option value="">Select source...</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Check">Check</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="EFT">EFT</option>
+                        <option value="Money Order">Money Order</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-block-start: var(--space-5);">
+                <button ng-click="vm.closeNewPayment()">Cancel</button>
+                <button class="btn-primary" ng-click="vm.saveNewPayment()">Save as Unapplied</button>
+            </div>
+
+            <div class="modal-footer-note">
+                <div class="modal-footer-note-input">
+                    <input type="text" placeholder="Add an optional note about this payment…" ng-model="vm.newPmtNote" ng-keypress="vm.handleNewPmtNoteKeypress($event)">
+                    <button class="btn-primary" ng-click="vm.addNewPmtNote()">Add Note</button>
+                </div>
+            </div>
         </div>
     </dialog>
 
@@ -3834,6 +4037,8 @@
                 // Distribute Payment Modal
                 vm.showDistribute = function (pmt) {
                     vm.distributePayment = pmt;
+                    vm.distMode = 'auto';
+                    vm.distNote = '';
                     var d = document.getElementById('distribute-dialog');
                     d.classList.remove('animate-in');
                     d.showModal();
@@ -3854,6 +4059,45 @@
                     }, 200);
                 };
 
+                vm.getDistributableLines = function () {
+                    if (!vm.distributePayment) return [];
+                    var lines = [];
+                    vm.encounters.forEach(function (enc) {
+                        enc.serviceLines.forEach(function (sl) {
+                            if (sl.clientBal > 0) {
+                                lines.push({
+                                    encDate: enc.date,
+                                    cpt: sl.cpt,
+                                    desc: sl.desc,
+                                    charge: sl.charge,
+                                    clientBal: sl.clientBal,
+                                    distAmount: 0
+                                });
+                            }
+                        });
+                    });
+                    return lines;
+                };
+
+                vm.getAutoDistAmount = function (line) {
+                    return 0;
+                };
+
+                vm.canDistribute = function () {
+                    return true;
+                };
+
+                vm.addDistNote = function () {
+                    if (!vm.distNote || !vm.distNote.trim()) return;
+                    vm.distNote = '';
+                };
+
+                vm.handleDistNoteKeypress = function ($event) {
+                    if ($event.key === 'Enter') {
+                        vm.addDistNote();
+                    }
+                };
+
                 document.getElementById('distribute-dialog').addEventListener('cancel', function (e) {
                     e.preventDefault();
                     vm.closeDistribute();
@@ -3861,6 +4105,15 @@
 
                 // New Payment Modal
                 vm.showNewPayment = function () {
+                    vm.newPmtDate = '';
+                    vm.newPmtPosted = '';
+                    vm.newPmtRefNum = '';
+                    vm.newPmtType = 'Client Payment';
+                    vm.newPmtCode = '';
+                    vm.newPmtAmount = '';
+                    vm.newPmtSource = '';
+                    vm.newPmtNote = '';
+                    vm.newPmtErrors = {};
                     var d = document.getElementById('new-payment-dialog');
                     d.classList.remove('animate-in');
                     d.showModal();
@@ -3879,6 +4132,29 @@
                         d.close();
                         d.classList.remove('closing');
                     }, 200);
+                };
+
+                vm.saveNewPayment = function () {
+                    vm.newPmtErrors = {};
+                    if (!vm.newPmtDate) vm.newPmtErrors.date = true;
+                    if (!vm.newPmtPosted) vm.newPmtErrors.posted = true;
+                    if (!vm.newPmtCode) vm.newPmtErrors.code = true;
+                    if (!vm.newPmtAmount) vm.newPmtErrors.amount = true;
+
+                    if (Object.keys(vm.newPmtErrors).length === 0) {
+                        vm.closeNewPayment();
+                    }
+                };
+
+                vm.addNewPmtNote = function () {
+                    if (!vm.newPmtNote || !vm.newPmtNote.trim()) return;
+                    vm.newPmtNote = '';
+                };
+
+                vm.handleNewPmtNoteKeypress = function ($event) {
+                    if ($event.key === 'Enter') {
+                        vm.addNewPmtNote();
+                    }
                 };
 
                 document.getElementById('new-payment-dialog').addEventListener('cancel', function (e) {
