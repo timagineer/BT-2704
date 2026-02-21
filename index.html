@@ -4203,19 +4203,21 @@
                 // Unapplied Payment Details Modal
                 vm.showUnappliedDetails = function (pmt) {
                     vm.selectedUnappliedPayment = pmt;
+                    vm.appHistoryDateSort = 'desc';
+                    vm.appHistoryPostedSort = null;
                     if (pmt.refNum === 'PAY-5590') {
                         vm.appHistory = [
                             { code: '90834', description: 'Psychotherapy, 45 min.', date: '08/15/2025', posted: '02/13/2026', charge: 175.00, applied: 28.00 },
-                            { code: '90791', description: 'Psychiatric Eval.', date: '01/15/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
-                            { code: '90837', description: 'Psychotherapy, 60 min.', date: '07/22/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
                             { code: '90791', description: 'Psychiatric Eval.', date: '12/08/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
-                            { code: '90834', description: 'Psychotherapy, 45 min.', date: '06/18/2025', posted: '02/13/2026', charge: 175.00, applied: 23.00 },
                             { code: '90791', description: 'Psychiatric Eval.', date: '11/12/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
-                            { code: '90837', description: 'Psychotherapy, 60 min.', date: '04/09/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
                             { code: '90791', description: 'Psychiatric Eval.', date: '10/01/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
-                            { code: '90791', description: 'Psychiatric Eval.', date: '05/14/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
                             { code: '90791', description: 'Psychiatric Eval.', date: '09/10/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90837', description: 'Psychotherapy, 60 min.', date: '07/22/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
+                            { code: '90834', description: 'Psychotherapy, 45 min.', date: '06/18/2025', posted: '02/13/2026', charge: 175.00, applied: 23.00 },
+                            { code: '90791', description: 'Psychiatric Eval.', date: '05/14/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
+                            { code: '90837', description: 'Psychotherapy, 60 min.', date: '04/09/2025', posted: '02/13/2026', charge: 200.00, applied: 28.00 },
                             { code: '90834', description: 'Psychotherapy, 45 min.', date: '03/05/2025', posted: '02/13/2026', charge: 175.00, applied: 6.00 },
+                            { code: '90791', description: 'Psychiatric Eval.', date: '01/15/2025', posted: '02/13/2026', charge: 145.00, applied: 28.00 },
                             { code: '90837', description: 'Psychotherapy, 60 min.', date: '01/15/2025', posted: '02/15/2025', charge: 200.00, applied: 28.00 }
                         ];
                     } else {
