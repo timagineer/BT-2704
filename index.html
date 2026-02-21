@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-        
+
         @layer config {
             :root {
                 --primary-50: hsl(216, 53%, 10%);
@@ -733,6 +733,12 @@
 
             .payment-table tbody tr {
                 background: var(--surface);
+                transition: background var(--transition-fast);
+                cursor: pointer;
+            }
+
+            .payment-table tbody tr:hover {
+                background: var(--hover-bg);
             }
 
             .payment-table td {
