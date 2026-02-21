@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
+        @layer config, base, components, utils;
+
         @layer config {
             :root {
                 --primary-50: hsl(216, 53%, 10%);
@@ -207,6 +209,11 @@
                 --ease-out-quadratic: cubic-bezier(.25, .46, .45, .94);
                 --transition-fast: 180ms ease;
                 --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+                /* Elevation */
+                --elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+                --elevation-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+                --elevation-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
             }
 
             @keyframes fadeIn {
@@ -233,7 +240,7 @@
 
         }
 
-        @layer resets {
+        @layer base {
 
             *,
             *::before,
@@ -459,7 +466,7 @@
                 border: 1px solid var(--border-subtle);
                 border-radius: var(--radius);
                 background: var(--surface);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                box-shadow: var(--elevation-sm);
             }
 
             summary {
@@ -1149,7 +1156,7 @@
                 background: var(--surface);
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                box-shadow: var(--elevation-md);
                 min-width: 14rem;
                 font-size: var(--font-size-2sm);
             }
@@ -1222,7 +1229,7 @@
             dialog {
                 border: none;
                 border-radius: var(--radius);
-                box-shadow: 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1);
+                box-shadow: var(--elevation-xl);
                 margin: auto;
                 padding: 0;
                 max-inline-size: 50rem;
@@ -1921,7 +1928,7 @@
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
                 padding: var(--space-3);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: var(--elevation-md);
             }
 
             .dropdown-label {
@@ -1971,7 +1978,7 @@
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
                 padding: var(--space-1);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: var(--elevation-md);
                 min-inline-size: 12rem;
             }
 
@@ -2062,7 +2069,7 @@
             }
         }
 
-        @layer utilities {
+        @layer utils {
 
             /* Single-purpose utilities */
             .empty-value {
