@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-
+        
         @layer config {
             :root {
                 --primary-50: hsl(216, 53%, 10%);
@@ -176,10 +176,13 @@
 
                 /* Typography scale */
                 --font-size-xs: 0.625rem;
+                --font-size-2xs: 0.6875rem;
                 --font-size-sm: 0.75rem;
+                --font-size-2sm: 0.8125rem;
                 --font-size-base: 0.875rem;
                 --font-size-md: 0.9375rem;
                 --font-size-lg: 1rem;
+                --font-size-xl: 1.5rem;
 
                 /* Font weights */
                 --font-weight-normal: 400;
@@ -195,6 +198,11 @@
                 --tracking-tight: 0;
                 --tracking-normal: 0.025em;
                 --tracking-wide: 0.05em;
+
+                /* Line height */
+                --leading-none: 1;
+                --leading-tight: 1.2;
+                --leading-normal: 1.5;
 
                 /* Transitions */
                 --ease-out-quadratic: cubic-bezier(.25, .46, .45, .94);
@@ -232,26 +240,25 @@
 
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-                font-size: 0.9375rem;
-                line-height: 1.5;
+                font-size: var(--font-size-md);
+                line-height: var(--leading-normal);
                 color: var(--text);
                 background: var(--bg);
-                font-variant-numeric: tabular-nums;
             }
 
             h1,
             h2,
             h3 {
-                font-weight: 600;
-                line-height: 1.2;
+                font-weight: var(--font-weight-semibold);
+                line-height: var(--leading-tight);
             }
 
             h1 {
-                font-size: 1.5rem;
+                font-size: var(--font-size-xl);
             }
 
             h2 {
-                font-size: 1rem;
+                font-size: var(--font-size-lg);
                 margin-block-end: var(--space-3);
             }
 
@@ -263,7 +270,7 @@
             a {
                 color: var(--primary-350);
                 text-decoration: none;
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 border-radius: 0.125rem;
                 box-shadow: 0 0 0 0 0 var(--focus-ring);
             }
@@ -287,13 +294,14 @@
             table {
                 inline-size: 100%;
                 border-collapse: collapse;
-                font-size: 0.875rem;
+                font-size: var(--font-size-base);
                 table-layout: auto;
+                font-variant-numeric: tabular-nums;
             }
 
             th {
                 text-align: start;
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
             }
 
             summary {
@@ -340,7 +348,7 @@
 
             .patient-info {
                 color: var(--text-secondary);
-                font-size: 0.875rem;
+                font-size: var(--font-size-base);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -352,7 +360,7 @@
                 display: flex;
                 align-items: center;
                 gap: var(--space-2);
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 color: var(--info-150);
                 padding: var(--space-2) calc(var(--space-2) + var(--space-1));
                 background: var(--info-550);
@@ -376,7 +384,7 @@
                 display: flex;
                 align-items: center;
                 gap: var(--space-2);
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 font-weight: 500;
                 color: var(--text-secondary);
             }
@@ -449,8 +457,8 @@
                 align-items: center;
                 padding: calc(var(--space-3) + 0.125rem) var(--space-4);
                 background: var(--surface);
-                font-weight: 600;
-                font-size: 0.9375rem;
+                font-weight: var(--font-weight-semibold);
+                font-size: var(--font-size-md);
                 border-radius: var(--radius);
                 transition: background-color var(--transition-fast);
             }
@@ -518,20 +526,20 @@
             }
 
             .summary-stat-label {
-                font-size: 0.625rem;
+                font-size: var(--font-size-xs);
                 color: var(--text-secondary);
                 text-transform: uppercase;
                 letter-spacing: var(--tracking-wide);
-                font-weight: 600;
-                line-height: 1;
+                font-weight: var(--font-weight-semibold);
+                line-height: var(--leading-none);
                 margin-block-end: var(--space-0);
             }
 
             .summary-stat-value {
-                font-size: 0.875rem;
-                font-weight: 600;
+                font-size: var(--font-size-base);
+                font-weight: var(--font-weight-semibold);
                 font-variant-numeric: tabular-nums;
-                line-height: 1;
+                line-height: var(--leading-none);
             }
 
             .stat-balance {
@@ -544,7 +552,7 @@
 
             .value-balance {
                 color: var(--warning-300);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
             }
 
             /* Details content */
@@ -564,7 +572,7 @@
             }
 
             .filter-bar-count {
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 color: var(--text-secondary);
             }
 
@@ -786,8 +794,8 @@
                 align-items: center;
                 padding: var(--space-3) var(--space-4);
                 cursor: pointer;
-                font-weight: 600;
-                font-size: 0.875rem;
+                font-weight: var(--font-weight-semibold);
+                font-size: var(--font-size-base);
                 transition: background-color var(--transition-fast);
             }
 
@@ -837,7 +845,7 @@
                 padding: var(--space-2) var(--space-3);
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 background: var(--surface);
                 color: var(--text);
             }
@@ -873,15 +881,15 @@
 
             .activity-time {
                 color: var(--text-secondary);
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
             }
 
             /* Badges */
             .badge {
                 display: inline-block;
                 padding: 0.125rem var(--space-2);
-                font-size: 0.6875rem;
-                font-weight: 600;
+                font-size: var(--font-size-2xs);
+                font-weight: var(--font-weight-semibold);
                 text-transform: uppercase;
                 letter-spacing: var(--tracking-wide);
                 border-radius: var(--radius);
@@ -915,7 +923,7 @@
             .badge-pending {
                 background: var(--info-550);
                 color: var(--info-150);
-                font-size: 0.625rem;
+                font-size: var(--font-size-xs);
                 padding: 0.125rem 0.375rem;
                 margin-inline-start: 0.25rem;
                 text-transform: none;
@@ -928,8 +936,8 @@
                 padding: 0.125rem var(--space-2);
                 background: var(--notice-550);
                 color: var(--notice-150);
-                font-size: 0.9375rem;
-                font-weight: 600;
+                font-size: var(--font-size-md);
+                font-weight: var(--font-weight-semibold);
                 border-radius: var(--radius);
                 margin-inline-start: var(--space-1);
             }
@@ -937,7 +945,7 @@
             .badge-count-info {
                 background: var(--info-550);
                 color: var(--info-150);
-                font-size: 0.875rem;
+                font-size: var(--font-size-base);
             }
 
             /* Buttons */
@@ -945,7 +953,7 @@
                 padding: var(--space-2) var(--space-3);
                 border: 1px solid var(--border);
                 background: var(--surface);
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 border-radius: var(--radius);
                 transition: background-color var(--transition-fast), border-color var(--transition-fast);
             }
@@ -1126,14 +1134,14 @@
                 border-radius: var(--radius);
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
                 min-width: 14rem;
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
             }
 
             .info-tooltip-header {
                 padding: var(--space-2) var(--space-3);
                 border-bottom: 1px solid var(--border-subtle);
-                font-size: 0.625rem;
-                font-weight: 600;
+                font-size: var(--font-size-xs);
+                font-weight: var(--font-weight-semibold);
                 color: var(--text-secondary);
                 text-transform: uppercase;
                 letter-spacing: var(--tracking-wide);
@@ -1147,7 +1155,7 @@
                 display: flex;
                 justify-content: space-between;
                 padding: 0.1875rem 0;
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
             }
 
             .info-tooltip-label {
@@ -1155,7 +1163,7 @@
             }
 
             .info-tooltip-value {
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 font-variant-numeric: tabular-nums;
             }
 
@@ -1169,16 +1177,16 @@
             .info-tooltip-total {
                 display: flex;
                 justify-content: space-between;
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
             }
 
             .info-tooltip-total-label {
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
             }
 
             .info-tooltip-total-value {
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 font-variant-numeric: tabular-nums;
             }
 
@@ -1263,10 +1271,10 @@
             }
 
             dialog h2 {
-                font-size: 0.9375rem;
-                font-weight: 600;
+                font-size: var(--font-size-md);
+                font-weight: var(--font-weight-semibold);
                 margin: 0;
-                line-height: 1.2;
+                line-height: var(--leading-tight);
             }
 
             dialog>header button {
@@ -1366,7 +1374,7 @@
             .modal-table th {
                 padding: 0.4375rem 0.625rem;
                 font-size: var(--font-size-sm);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text-secondary);
                 text-transform: none;
                 letter-spacing: var(--tracking-normal);
@@ -1398,7 +1406,7 @@
 
             .modal-table td.positive {
                 color: var(--positive-250);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
             }
 
             .modal-table tbody:last-child tr:last-child td {
@@ -1432,7 +1440,7 @@
 
             .modal-warning-title {
                 font-size: var(--font-size-sm);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
                 margin-block-end: var(--space-1);
             }
@@ -1440,7 +1448,7 @@
             .modal-warning-text {
                 font-size: var(--font-size-sm);
                 color: var(--text);
-                line-height: 1.5;
+                line-height: var(--leading-normal);
             }
 
             /* Modal notice banner */
@@ -1470,7 +1478,7 @@
 
             .modal-notice-title {
                 font-size: var(--font-size-sm);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
                 margin-block-end: var(--space-1);
             }
@@ -1478,7 +1486,7 @@
             .modal-notice-text {
                 font-size: var(--font-size-sm);
                 color: var(--text);
-                line-height: 1.5;
+                line-height: var(--leading-normal);
             }
 
             /* Modal form controls */
@@ -1488,7 +1496,7 @@
 
             .modal-form-label {
                 font-size: var(--font-size-sm);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
                 margin-block-end: var(--space-1);
                 display: block;
@@ -1496,7 +1504,7 @@
 
             .modal-field-label {
                 font-size: var(--font-size-sm);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
                 margin-block-end: var(--space-0);
             }
@@ -1687,7 +1695,7 @@
             }
 
             .modal-footer-note-input button {
-                font-size: 0.75rem;
+                font-size: var(--font-size-sm);
                 padding: 0.375rem 0.625rem;
             }
 
@@ -1827,7 +1835,7 @@
 
             .modal-table tbody td.danger {
                 color: var(--warning-300);
-                font-weight: 600;
+                font-weight: var(--font-weight-semibold);
             }
 
             /* Responsive */
@@ -1872,7 +1880,7 @@
             /* Placeholder text styles */
             .placeholder-text {
                 color: var(--text-secondary);
-                font-size: 0.875rem;
+                font-size: var(--font-size-base);
             }
 
             /* Table header cells */
@@ -1978,7 +1986,7 @@
                 display: flex;
                 align-items: center;
                 margin-block-end: 0.375rem;
-                font-size: 0.8125rem;
+                font-size: var(--font-size-2sm);
                 cursor: pointer;
                 font-weight: 400;
             }
@@ -2014,20 +2022,20 @@
 
             /* Button sizes */
             .btn-xs {
-                font-size: 0.75rem;
+                font-size: var(--font-size-sm);
                 padding: 0.25rem 0.5rem;
                 font-weight: 400;
             }
 
             .btn-xs-spaced {
-                font-size: 0.75rem;
+                font-size: var(--font-size-sm);
                 padding: 0.25rem 0.5rem;
                 margin-inline-end: 0.25rem;
                 font-weight: 400;
             }
 
             .btn-sm {
-                font-size: 0.75rem;
+                font-size: var(--font-size-sm);
                 padding: 0.375rem 0.625rem;
                 font-weight: 400;
             }
@@ -2070,7 +2078,7 @@
                 inline-size: 100%;
                 text-align: start;
                 padding: var(--space-2) var(--space-3);
-                font-size: 0.75rem;
+                font-size: var(--font-size-sm);
                 font-weight: 400;
                 border: none;
                 background: transparent;
@@ -2127,8 +2135,8 @@
             }
 
             .selection-bar-text {
-                font-size: 0.875rem;
-                font-weight: 600;
+                font-size: var(--font-size-base);
+                font-weight: var(--font-weight-semibold);
                 color: var(--text);
             }
 
@@ -2140,7 +2148,7 @@
             /* Empty state message */
             .empty-state-message {
                 color: var(--text-secondary);
-                font-size: 0.875rem;
+                font-size: var(--font-size-base);
                 font-style: italic;
                 text-align: center;
                 margin-block-start: calc(var(--space-4) * -1);
