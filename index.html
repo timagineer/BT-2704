@@ -261,9 +261,9 @@
             html {
                 font-size: 100%;
                 scrollbar-gutter: stable;
-                -webkit-text-size-adjust: none;
+                /* -webkit-text-size-adjust: none;
                 text-size-adjust: none;
-                line-height: 1.5;
+                line-height: 1.5; */
             }
 
             input,
@@ -304,6 +304,11 @@
             h2 {
                 font-size: var(--font-size-lg);
                 margin-block-end: var(--space-40);
+            }
+
+            button {
+                font: inherit;
+                cursor: pointer;
             }
 
             a {
@@ -531,10 +536,10 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                inline-size: 1rem;
-                block-size: 1rem;
+                inline-size: 1.25rem;
+                block-size: 1.25rem;
                 transition: transform var(--transition-normal);
-                color: var(--border);
+                color: var(--text-secondary);
             }
 
             details[open] .summary-icon {
@@ -543,8 +548,8 @@
             }
 
             .summary-icon svg {
-                inline-size: 0.75rem;
-                block-size: 0.75rem;
+                inline-size: 1rem;
+                block-size: 1rem;
                 fill: currentColor;
             }
 
@@ -710,10 +715,10 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                inline-size: 1rem;
-                block-size: 1rem;
+                inline-size: 1.25rem;
+                block-size: 1.25rem;
                 transition: transform var(--transition-normal);
-                color: var(--border);
+                color: var(--text-secondary);
             }
 
             .expand-icon.expanded {
@@ -722,8 +727,8 @@
             }
 
             .expand-icon svg {
-                inline-size: 0.75rem;
-                block-size: 0.75rem;
+                inline-size: 1rem;
+                block-size: 1rem;
                 fill: currentColor;
             }
 
@@ -858,10 +863,10 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                inline-size: 1rem;
-                block-size: 1rem;
+                inline-size: 1.25rem;
+                block-size: 1.25rem;
                 transition: transform var(--transition-normal);
-                color: var(--border);
+                color: var(--text-secondary);
             }
 
             .activity-log[open] .activity-log-icon {
@@ -870,8 +875,8 @@
             }
 
             .activity-log-icon svg {
-                inline-size: 0.75rem;
-                block-size: 0.75rem;
+                inline-size: 1rem;
+                block-size: 1rem;
                 fill: currentColor;
             }
 
