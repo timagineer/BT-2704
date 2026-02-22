@@ -261,9 +261,9 @@
             html {
                 font-size: 100%;
                 scrollbar-gutter: stable;
-                /* -webkit-text-size-adjust: none;
+                -webkit-text-size-adjust: none;
                 text-size-adjust: none;
-                line-height: 1.5; */
+                line-height: 1.5;
             }
 
             input,
@@ -271,6 +271,14 @@
             textarea,
             select {
                 font: inherit;
+            }
+
+            button,
+            label[for],
+            select,
+            summary,
+            [role="button"] {
+                cursor: pointer;
             }
 
             body {
@@ -296,11 +304,6 @@
             h2 {
                 font-size: var(--font-size-lg);
                 margin-block-end: var(--space-40);
-            }
-
-            button {
-                font: inherit;
-                cursor: pointer;
             }
 
             a {
