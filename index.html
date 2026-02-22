@@ -449,6 +449,7 @@
                 padding: var(--space-30) calc(var(--space-30) + var(--space-20));
                 background: var(--info-600);
                 border: 1px solid var(--info-500);
+                border-radius: var(--radius);
             }
 
             .statement-info-item {
@@ -475,7 +476,17 @@
             .statement-info a {
                 margin-inline-start: auto;
                 white-space: nowrap;
-                padding-inline-start: var(--space-45);
+                padding-inline-start: var(--space-40);
+                position: relative;
+            }
+
+            .statement-info a::before {
+                content: '';
+                position: absolute;
+                inset-inline-start: 0;
+                inset-block-start: 50%;
+                transform: translateY(-50%);
+                block-size: 1rem;
                 border-inline-start: 1px solid var(--info-500);
             }
 
