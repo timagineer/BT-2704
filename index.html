@@ -1254,9 +1254,12 @@
                 inline-size: calc(100% - 2rem);
                 opacity: 0;
                 transform: translateY(0.3125rem) scale(0.99);
+                max-block-size: 85vh;
+            }
+
+            dialog[open] {
                 display: flex;
                 flex-direction: column;
-                max-block-size: 85vh;
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -2689,7 +2692,7 @@
                                 <td class="td-end">
                                     <button class="btn-xs-spaced" ng-click="vm.showUnappliedDetails(pmt)">Details</button>
                                     <button class="btn-danger btn-xs-spaced" ng-class="{hidden: pmt.unapplied === 0}" ng-click="vm.showUnappliedRefund(pmt)">Refund</button>
-                                    <button class="btn-primary btn-xs" ng-class="{hidden: pmt.unapplied === 0}" ng-click="vm.showDistribute(pmt)">Distribute</button>
+                                    <button class="btn-primary btn-xs" ng-class="{hidden: pmt.unapplied === 0}" ng-click="vm.showDistribute(pmt); $event.stopPropagation()">Distribute</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -3212,8 +3215,8 @@
             </div>
 
             <div class="modal-form-group">
-                <div class="modal-form-label" style="margin-block-end: var(--space-40);">Distribution Mode</div>
-                <div class="modal-radio-group" style="margin-block-end: var(--space-50);">
+                <div class="modal-form-label">Distribution Mode</div>
+                <div class="modal-radio-group">
                     <label class="modal-radio-label">
                         <input type="radio" name="distMode" value="auto" ng-model="vm.distMode">
                         <span>Auto-distribute to oldest balances</span>
@@ -4281,17 +4284,21 @@
                 };
 
                 vm.closeDistribute = function () {
+                    document.activeElement && document.activeElement.blur();
                     var d = document.getElementById('distribute-dialog');
                     d.classList.remove('animate-in');
                     d.classList.add('closing');
                     setTimeout(function () {
                         d.close();
                         d.classList.remove('closing');
+                        vm.distributePayment = null;
+                        vm._distributableLines = null;
                     }, 200);
                 };
 
                 vm.getDistributableLines = function () {
                     if (!vm.distributePayment) return [];
+                    if (vm._distributableLines) return vm._distributableLines;
                     var lines = [];
                     vm.encounters.forEach(function (enc) {
                         enc.serviceLines.forEach(function (sl) {
@@ -4307,6 +4314,7 @@
                             }
                         });
                     });
+                    vm._distributableLines = lines;
                     return lines;
                 };
 
