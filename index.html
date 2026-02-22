@@ -449,7 +449,6 @@
                 padding: var(--space-30) calc(var(--space-30) + var(--space-20));
                 background: var(--info-600);
                 border: 1px solid var(--info-500);
-                border-radius: var(--radius);
             }
 
             .statement-info-item {
@@ -467,13 +466,17 @@
                 opacity: 0.7;
             }
 
-            .statement-info a {
-                color: var(--info-150);
-                margin-inline-start: var(--space-20);
+            .statement-info-label {
+                font-weight: var(--font-weight-semibold);
+                opacity: 0.7;
+                white-space: nowrap;
             }
 
-            .statement-info a:hover {
-                color: var(--info-100);
+            .statement-info a {
+                margin-inline-start: auto;
+                white-space: nowrap;
+                padding-inline-start: var(--space-45);
+                border-inline-start: 1px solid var(--info-500);
             }
 
             /* Toggle switch */
@@ -2272,6 +2275,7 @@
         <div class="patient-info">
             <span>Pat Patient | MRN: 00482 | DOB: 05/14/1988</span>
             <div class="statement-info">
+                <span class="statement-info-label">Last Statement</span>
                 <span class="statement-info-item">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M8 2v4" />
@@ -2288,15 +2292,8 @@
                     </svg>
                     Email
                 </span>
-                <span class="statement-info-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-                        <path d="M12 18V6" />
-                    </svg>
-                    $80.00 Bal.
-                    <a href="#">View All (3)</a>
-                </span>
+                <span class="statement-info-item">$80.00 Bal.</span>
+                <a href="#">View All (3)</a>
             </div>
             <div class="freeze-toggle">
                 <label>
