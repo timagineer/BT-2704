@@ -2572,8 +2572,8 @@
                                 <td class="numeric">${{enc.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{enc.totalPaid.toFixed(2)}}</td>
                                 <td class="numeric">{{enc.insAdj > 0 ? '-$' + enc.insAdj.toFixed(2) : '$0.00'}}</td>
-                                <td class="numeric">{{enc.clientBal.toFixed(2)}}</td>
-                                <td class="numeric">{{enc.insBal.toFixed(2)}}</td>
+                                <td class="numeric">${{enc.clientBal.toFixed(2)}}</td>
+                                <td class="numeric">${{enc.insBal.toFixed(2)}}</td>
                                 <td class="numeric" ng-class="{'value-balance': enc.totalBal > 0}">${{enc.totalBal.toFixed(2)}}</td>
                             </tr>
 
@@ -2591,8 +2591,8 @@
                                 <td class="numeric">${{sl.charge.toFixed(2)}}</td>
                                 <td class="numeric">${{sl.paid.toFixed(2)}}</td>
                                 <td class="numeric">{{sl.insAdj > 0 ? '-$' + sl.insAdj.toFixed(2) : '$0.00'}}</td>
-                                <td class="numeric">{{sl.clientBal.toFixed(2)}}</td>
-                                <td class="numeric">{{sl.insBal.toFixed(2)}}</td>
+                                <td class="numeric">${{sl.clientBal.toFixed(2)}}</td>
+                                <td class="numeric">${{sl.insBal.toFixed(2)}}</td>
                                 <td class="numeric" ng-class="{'value-balance': sl.totalBal > 0}">${{sl.totalBal.toFixed(2)}}</td>
                             </tr>
                             <tr ng-repeat-end ng-show="sl.expanded && vm.showEncounter(enc)">
