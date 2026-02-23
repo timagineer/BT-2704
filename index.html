@@ -953,6 +953,10 @@
 
             .activity-log-content {
                 padding: 0 var(--space-45) var(--space-45) var(--space-45);
+                max-block-size: 14rem;
+                overflow-y: auto;
+                scrollbar-gutter: stable;
+                overscroll-behavior: contain;
             }
 
             .activity-input {
@@ -3850,6 +3854,21 @@
                                         ts: '01/22/2025 2:14 PM',
                                         user: 'System',
                                         action: 'ERA auto-posted $140.00 payment from Aetna'
+                                    },
+                                    {
+                                        ts: '01/15/2025 4:30 PM',
+                                        user: 'Ashley M.',
+                                        action: 'Claim submitted to Aetna'
+                                    },
+                                    {
+                                        ts: '01/15/2025 2:00 PM',
+                                        user: 'Dr. Smith',
+                                        action: 'Note signed'
+                                    },
+                                    {
+                                        ts: '01/15/2025 9:02 AM',
+                                        user: 'Dr. Smith',
+                                        action: 'Session note created'
                                     }
                                 ]
                             }
