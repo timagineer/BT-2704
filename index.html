@@ -252,12 +252,10 @@
         }
 
         @layer base {
-            /* Ultimate CSS Reset - Weighted by Commonalities */
 
+            /* Mashup CSS Reset - Weighted by Commonalities */
             /* Universal reset (18/20 + 17/20 + 9/20 resets) */
-            *,
-            *::before,
-            *::after {
+            :where(*, *::before, *::after) {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
@@ -273,46 +271,29 @@
             }
 
             /* Form element font inheritance (19/20 resets) */
-            input,
-            button,
-            textarea,
-            select {
+            :where(input, button, textarea, select) {
                 font: inherit;
             }
 
             /* Interactive element cursors - usability improvement */
-            button,
-            label[for],
-            select,
-            summary,
-            [role="button"] {
+            :where(button, label[for], select, summary, [role="button"]) {
                 cursor: pointer;
             }
 
             /* Text overflow prevention - typography safety */
-            p,
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
+            :where(p, h1, h2, h3, h4, h5, h6) {
                 overflow-wrap: break-word;
             }
 
             /* Media element defaults (15/20 + 8/20 resets) */
-            img,
-            svg,
-            video,
-            canvas {
+            :where(img, svg, video, canvas) {
                 display: block;
                 max-width: 100%;
                 height: auto;
             }
 
             /* Remove list styles (12/20 resets) */
-            ul,
-            ol {
+            :where(ul, ol) {
                 list-style: none;
             }
 
@@ -326,6 +307,7 @@
                 display: none !important;
             }
 
+            /* End Mashup CSS Reset - Weighted by Commonalities */
             body {
                 animation: fadeIn 0.5s ease 0.2s backwards;
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
