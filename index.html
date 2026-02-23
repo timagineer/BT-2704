@@ -934,7 +934,7 @@
             }
 
             .activity-log-content {
-                padding: 0 var(--space-45) var(--space-45) var(--space-45);
+                padding: var(--space-40) var(--space-45) var(--space-45);
                 max-block-size: 14rem;
                 overflow-y: auto;
                 scrollbar-gutter: stable;
@@ -943,8 +943,9 @@
 
             .activity-input {
                 display: flex;
+                flex: 1;
                 gap: var(--space-30);
-                margin-block-end: var(--space-40);
+                margin-inline-start: var(--space-40);
             }
 
             .activity-input input {
@@ -2687,12 +2688,12 @@
                                                 </span>
                                                 Activity Log <span class="badge-count badge-count-info">{{sl.activity.length}}</span>
                                             </div>
-                                        </summary>
-                                        <div class="activity-log-content">
-                                            <div class="activity-input">
+                                            <div class="activity-input" ng-click="$event.stopPropagation()">
                                                 <input type="text" placeholder="Add an optional note. Notes are visible to all billers." ng-model="sl.newNote" ng-keypress="vm.handleNoteKeypress($event, sl)">
                                                 <button class="btn-primary btn-sm" ng-click="vm.addNote(sl)">Add Note</button>
                                             </div>
+                                        </summary>
+                                        <div class="activity-log-content">
                                             <div ng-repeat="act in sl.activity" class="activity-item">
                                                 <div class="activity-time">{{act.ts}} • {{act.user}}</div>
                                                 <div>{{act.action}}</div>
