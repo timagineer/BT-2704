@@ -166,8 +166,9 @@
                 --button-primary-text: var(--gray-850);
 
                 /* Spacing scale */
-                --space-05: 0;
-                --space-10: 0.0625rem;
+                --space-00: 0;
+                --space-05: 0.0625rem;
+                --space-10: 0.09375rem;
                 --space-15: 0.125rem;
                 --space-20: 0.25rem;
                 --space-25: 0.375rem;
@@ -935,7 +936,7 @@
 
             .activity-log-content {
                 padding: var(--space-40) var(--space-45) var(--space-45);
-                max-block-size: 14rem;
+                max-block-size: calc(var(--space-85) * 3);
                 overflow-y: auto;
                 scrollbar-gutter: stable;
                 overscroll-behavior: contain;
@@ -1044,7 +1045,8 @@
                 display: inline-block;
                 padding: 0.125rem var(--space-30);
                 background: var(--notice-550);
-                color: var(--notice-150);
+                color: var(--notice-200);
+                border: 1px solid var(--notice-450);
                 font-size: var(--font-size-md);
                 font-weight: var(--font-weight-semibold);
                 border-radius: var(--radius);
@@ -1053,7 +1055,8 @@
 
             .badge-count-info {
                 background: var(--info-550);
-                color: var(--info-150);
+                color: var(--info-200);
+                border-color: var(--info-450);
                 font-size: var(--font-size-base);
             }
 
@@ -2297,9 +2300,9 @@
                 </span>
                 <span class="statement-info-item">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-                        <path d="M12 18V6" />
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                        <path d="M12 18V6"/>
                     </svg>
                     $80.00 Bal.
                 </span>
@@ -3385,9 +3388,9 @@
             <div class="modal-notice">
                 <div class="modal-notice-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-                        <path d="M12 18V6" />
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                        <path d="M12 18V6"/>
                     </svg>
                 </div>
                 <div class="modal-notice-content">
@@ -3853,6 +3856,16 @@
                                         ts: '01/15/2025 9:02 AM',
                                         user: 'Dr. Smith',
                                         action: 'Session note created'
+                                    },
+                                    {
+                                        ts: '01/14/2025 4:55 PM',
+                                        user: 'Ashley M.',
+                                        action: 'Prior auth verified with Aetna — approved for 8 sessions'
+                                    },
+                                    {
+                                        ts: '01/10/2025 11:20 AM',
+                                        user: 'Ashley M.',
+                                        action: 'Eligibility check passed — active coverage confirmed'
                                     }
                                 ]
                             }
