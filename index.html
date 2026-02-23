@@ -252,7 +252,9 @@
         }
 
         @layer base {
+            /* Ultimate CSS Reset - Weighted by Commonalities */
 
+            /* Universal reset (18/20 + 17/20 + 9/20 resets) */
             *,
             *::before,
             *::after {
@@ -261,14 +263,16 @@
                 box-sizing: border-box;
             }
 
+            /* Font size adjustment prevention + line height (16/20 + 8/20 resets) */
             html {
                 font-size: 100%;
                 scrollbar-gutter: stable;
-                /* -webkit-text-size-adjust: none;
+                -webkit-text-size-adjust: none;
                 text-size-adjust: none;
-                line-height: 1.5; */
+                line-height: 1.5;
             }
 
+            /* Form element font inheritance (19/20 resets) */
             input,
             button,
             textarea,
@@ -276,6 +280,7 @@
                 font: inherit;
             }
 
+            /* Interactive element cursors - usability improvement */
             button,
             label[for],
             select,
@@ -377,7 +382,6 @@
 
             table {
                 inline-size: 100%;
-                border-collapse: collapse;
                 font-size: var(--font-size-base);
                 table-layout: auto;
                 font-variant-numeric: tabular-nums;
@@ -1909,9 +1913,9 @@
             .modal-table-wrapper {
                 max-block-size: 18rem;
                 overflow-y: auto;
+                scrollbar-gutter: stable;
+                overscroll-behavior: contain;
             }
-
-
 
             .modal-footer-note {
                 padding-block-start: var(--space-55);
@@ -2304,7 +2308,11 @@
                     Emailed
                 </span>
                 <span class="statement-info-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                        <path d="M12 18V6" />
+                    </svg>
                     $80.00 Bal.
                 </span>
                 <a href="#">View All (3)</a>
@@ -2658,7 +2666,7 @@
                                                 <td class="empty-value">–</td>
                                                 <td class="td-end">
                                                     <button class="btn-xs-spaced" ng-click="vm.showPaymentDetail(pmt, sl)">Details</button>
-                                                    <button class="btn-danger btn-xs" ng-click="vm.showRefundModal(pmt, sl)">Reverse</button>
+                                                    <button class="btn-danger btn-xs" ng-click="vm.showRefundModal(pmt, sl)">Refund</button>
                                                 </td>
                                             </tr>
                                             <tr ng-repeat-end ng-if="pmt.adjAmount > 0">
@@ -2677,7 +2685,7 @@
                                                 <td>{{pmt.adjCodes}}</td>
                                                 <td class="td-end">
                                                     <button class="btn-xs-spaced" ng-click="vm.showPaymentDetail(pmt, sl, 'Insurance Adjustment')">Details</button>
-                                                    <button class="btn-xs" disabled>Reverse</button>
+                                                    <button class="btn-xs" disabled>Refund</button>
                                                 </td>
                                             </tr>
                                         </tbody>
