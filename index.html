@@ -219,7 +219,7 @@
 
                 /* Transitions */
                 --ease-out-quadratic: cubic-bezier(.25, .46, .45, .94);
-                --transition-fast: 180ms ease;
+                --transition-fast: 180ms;
                 --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
                 /* Elevation */
@@ -344,7 +344,7 @@
                 text-decoration: none;
                 font-weight: var(--font-weight-semibold);
                 border-radius: 0.125rem;
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             a:hover {
@@ -360,7 +360,7 @@
 
             a:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             table {
@@ -526,7 +526,7 @@
             }
 
             .freeze-toggle input[type="checkbox"] {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -537,7 +537,7 @@
 
             .freeze-toggle input[type="checkbox"]:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             /* Details/Summary (Accordions) */
@@ -566,7 +566,7 @@
             }
 
             summary {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -577,7 +577,7 @@
 
             summary:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             .summary-label {
@@ -965,7 +965,7 @@
             }
 
             .activity-input input {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -976,7 +976,7 @@
 
             .activity-input input:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             .activity-item {
@@ -1103,7 +1103,7 @@
             }
 
             button {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -1114,7 +1114,7 @@
 
             button:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             .btn-primary {
@@ -1222,7 +1222,7 @@
             }
 
             .info-icon {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -1233,7 +1233,7 @@
 
             .info-icon:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             /* Info tooltip */
@@ -1730,7 +1730,7 @@
 
                 .modal-field-input,
                 .modal-field-select {
-                    box-shadow: 0 0 0 0 0 var(--focus-ring);
+                    box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
                     transition: box-shadow var(--transition-fast) var(--ease-out-quadratic);
                 }
             }
@@ -1738,7 +1738,7 @@
             .modal-field-input:focus-visible,
             .modal-field-select:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             .modal-field-input[type="date"]::-webkit-calendar-picker-indicator {
@@ -1837,7 +1837,7 @@
             }
 
             .modal-input {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -1849,7 +1849,7 @@
             .modal-input:focus-visible,
             .modal-input:focus {
                 outline: none;
-                box-shadow: 0 0 0 2px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             .modal-input.error {
@@ -1872,7 +1872,7 @@
                 font-size: var(--font-size-base);
                 font-family: inherit;
                 resize: vertical;
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -1883,7 +1883,7 @@
 
             .modal-textarea:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             /* Modal footer */
@@ -1934,7 +1934,7 @@
             }
 
             .modal-footer-note-input input {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -1945,7 +1945,7 @@
 
             .modal-footer-note-input input:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             /* Modal table danger row */
@@ -1992,7 +1992,7 @@
             }
 
             .sort-btn {
-                box-shadow: 0 0 0 0 0 var(--focus-ring);
+                box-shadow: 0 0 0 0 var(--surface), 0 0 0 0 var(--focus-ring);
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -2003,7 +2003,7 @@
 
             .sort-btn:focus-visible {
                 outline: none;
-                box-shadow: 0 0 0 2px 3px var(--focus-ring);
+                box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring);
             }
 
             /* Overlay backdrop */
@@ -2300,9 +2300,9 @@
                 </span>
                 <span class="statement-info-item">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
-                        <path d="M12 18V6"/>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                        <path d="M12 18V6" />
                     </svg>
                     $80.00 Bal.
                 </span>
@@ -3388,9 +3388,9 @@
             <div class="modal-notice">
                 <div class="modal-notice-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
-                        <path d="M12 18V6"/>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                        <path d="M12 18V6" />
                     </svg>
                 </div>
                 <div class="modal-notice-content">
